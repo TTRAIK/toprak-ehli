@@ -12,3 +12,4 @@ content/*.tmp
 
 .vercel
 .env*
+!.env.example
