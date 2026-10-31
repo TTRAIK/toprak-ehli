@@ -6,7 +6,7 @@ export const contact = {
 
 export function contactLinks(property) {
   const message = property
-    ? `Merhaba, ${property.local} (${property.id}) temsili demo kaydı hakkında bilgi almak istiyorum. Bunun gerçek satış ilanı olmadığını gördüm.`
+    ? `Merhaba, ${property.local} (${property.id}) ${property.isDemo ? 'temsili demo kaydı' : 'portföyü'} hakkında bilgi almak istiyorum.${property.isDemo ? ' Bunun gerçek satış ilanı olmadığını gördüm.' : ''}`
     : 'Merhaba, Toprak Ehli hakkında bilgi almak istiyorum.';
   return [
     ['Telefonla ara', `tel:${contact.phone}`],

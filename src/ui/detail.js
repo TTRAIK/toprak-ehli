@@ -5,6 +5,18 @@ import { renderContact } from './contact.js';
 
 export function createDetail(dialog) {
   let trigger;
+  dialog.querySelector('#copy-property-link').addEventListener('click', async () => {
+    const input = dialog.querySelector('#property-link');
+    const status = dialog.querySelector('#share-status');
+    try {
+      await navigator.clipboard.writeText(input.value);
+      status.textContent = 'Bağlantı kopyalandı.';
+    } catch {
+      input.focus();
+      input.select();
+      status.textContent = 'Bağlantı seçildi. Kopyalamak için Ctrl+C veya telefonunuzun Kopyala seçeneğini kullanın.';
+    }
+  });
   dialog.querySelector('#close-detail').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => {
     const bounds = dialog.getBoundingClientRect();
@@ -15,6 +27,16 @@ export function createDetail(dialog) {
     trigger = button;
     dialog.querySelector('#detail-title').textContent = property.local;
     dialog.querySelector('#detail-location').textContent = property.region;
+    dialog.querySelector('.dialog-head .eyebrow').textContent = property.isDemo ? 'TEMSİLİ PORTFÖY' : 'PORTFÖY BİLGİSİ';
+    dialog.querySelector('.disclaimer').textContent = property.isDemo
+      ? 'Bu kayıt gerçek satış ilanı değildir. Tapu, imar, yol ve altyapı bilgileri doğrulanmamıştır.'
+      : 'Kaynak ve kontrol tarihlerini inceleyin. Sağlanmamış bilgiler doğrulanmış kabul edilmez. Güncel tapu ve imar bilgilerini ilgili kurumlarla kontrol edin.';
+    const shareUrl = new URL(location.href);
+    shareUrl.search = '';
+    shareUrl.searchParams.set('property', property.id);
+    shareUrl.hash = 'portfoy';
+    dialog.querySelector('#property-link').value = shareUrl.href;
+    dialog.querySelector('#share-status').textContent = '';
     const facts = dialog.querySelector('#detail-facts');
     facts.replaceChildren(...propertyFacts(property).flatMap(fact => {
       const value = element('dd');

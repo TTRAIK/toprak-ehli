@@ -6,6 +6,7 @@ export const properties = [
   { id: 'demo-4', region: 'Tekirdağ', local: 'Karaağaç', area: 3000, price: 5250000, type: 'Müstakil', isDemo: true },
 ].map(property => ({
   ...property,
+  image: `src/assets/${property.id}.webp`,
   // Gerçek kaynak ve kontrol tarihi sağlanana kadar hiçbir alan doğrulanmış değildir.
   evidence: Object.fromEntries(['price', 'area', 'type', 'parcel', 'zoning', 'road', 'utilities']
     .map(key => [key, { status: 'unverified', source: null, checkedAt: null }])),

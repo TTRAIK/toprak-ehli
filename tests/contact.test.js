@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { contactLinks } from '../src/data/contact.js';
 
 test('contact links use international phone and encode the demo record context', () => {
-  const links = contactLinks({ local: 'Yeniçiftlik & örnek', id: 'demo-1' });
+  const links = contactLinks({ local: 'Yeniçiftlik & örnek', id: 'demo-1', isDemo: true });
   assert.equal(links[0][1], 'tel:+905304627659');
   const whatsapp = new URL(links[1][1]);
   assert.equal(whatsapp.pathname, '/905304627659');

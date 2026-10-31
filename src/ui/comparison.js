@@ -14,7 +14,7 @@ export function renderComparison(container, properties, onRemove) {
   scroll.setAttribute('role', 'region');
   scroll.setAttribute('aria-label', 'Portföy karşılaştırma tablosu; dar ekranda yatay kaydırılabilir');
   const table = element('table', undefined, 'comparison-table');
-  table.append(element('caption', 'Temsili portföyler · Bilgiler doğrulanmamıştır.'));
+  table.append(element('caption', properties.some(property => property.isDemo) ? 'Temsili portföyler · Bilgiler doğrulanmamıştır.' : 'Portföy karşılaştırması · Kaynak ve kontrol tarihlerini inceleyin.'));
   const head = element('thead');
   const headings = element('tr');
   const corner = element('th', 'Bilgi');

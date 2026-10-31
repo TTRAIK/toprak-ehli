@@ -10,21 +10,40 @@ export function element(tag, text, className) {
 export function renderListings(container, properties, onDetail, comparison) {
   container.replaceChildren();
   if (!properties.length) {
-    container.append(element('p', 'Bu filtrelerle eşleşen örnek yok. Filtreleri sıfırlayarak tekrar deneyin.', 'empty'));
+    const empty = element('div', undefined, 'empty');
+    empty.append(element('p', 'Bu seçimlerle gösterilecek portföy bulunamadı. Filtreleri sıfırlayın veya güncel portföyler için bize ulaşın.'));
+    const contact = element('a', 'Güncel portföyleri sor ↗', 'detail-button');
+    contact.href = '#iletisim';
+    empty.append(contact);
+    container.append(empty);
     return;
   }
   for (const property of properties) {
     const article = element('article', undefined, 'listing');
-    const illustration = element('div', 'TEMSİLİ KAYIT', 'listing-art');
+    const illustration = element('div', property.isDemo ? 'TEMSİLİ KAYIT' : 'TOPRAK EHLİ', 'listing-art');
+    if (property.image) {
+      illustration.textContent = '';
+      if (property.isDemo) illustration.classList.add('demo-art');
+      const image = element('img');
+      image.src = property.image;
+      image.alt = property.isDemo ? 'Temsili arazi görseli; bu kayıt veya konumun gerçek fotoğrafı değildir.' : property.imageAlt;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.width = 610;
+      image.height = 222;
+      image.addEventListener('error', () => illustration.replaceChildren(element('span', 'Görsel yüklenemedi', 'image-note')), { once: true });
+      illustration.append(image, element('span', property.isDemo ? 'ÖRNEK GÖRSEL · GERÇEK PARSEL DEĞİLDİR' : 'PORTFÖY GÖRSELİ', 'image-note'));
+    }
     article.append(illustration, element('p', property.region, 'eyebrow'), element('h3', property.local));
     const price = describeFact(property, ['price', 'Fiyat', 'TL']);
     const area = describeFact(property, ['area', 'Alan', 'm²']);
     const titleType = describeFact(property, ['type', 'Tapu türü']);
     article.append(element('p', `${area.value} · ${titleType.value}`, 'muted'));
     article.append(element('p', price.value, 'price'), element('p', price.status, 'muted'));
-    const button = element('button', 'Örnek detayı incele ↗', 'detail-button');
+    const button = element('button', property.isDemo ? 'Örnek detayı incele ↗' : 'Portföyü incele ↗', 'detail-button');
     button.type = 'button';
-    button.setAttribute('aria-label', `${property.local} örnek portföy detayını incele`);
+    button.setAttribute('aria-label', `${property.local}${property.isDemo ? ' örnek' : ''} portföy detayını incele`);
+    button.dataset.id = property.id;
     button.addEventListener('click', () => onDetail(property, button));
     article.append(button);
     const label = element('label', undefined, 'compare-choice');

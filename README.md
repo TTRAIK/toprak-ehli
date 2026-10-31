@@ -1,25 +1,20 @@
 # Toprak Ehli
 
-Mevcut teslimat bir tanıtım prototipidir. Gerçek ilan veya backend içermez. İşletmenin telefon/WhatsApp/e-posta bağlantıları vardır; sitede talep kaydı tutulmaz. Mesaj gönderimini kullanıcı kendi uygulamasında tamamlar.
+Modüler arsa ve arazi sitesi. Yerel demo, iletişim bağlantıları ve ayrı statik yayın paketi içerir. Gerçek talep backend'i veya yönetim paneli henüz yoktur.
 
-## Demoyu açma
+## Kullanım
 
-`reference/toprak_ehli_demo.html` dosyasını güncel bir tarayıcıyla açın. Kurulum, paket indirme veya build gerekmez. Görseller dosyaya gömülüdür.
+Node.js kurulu bilgisayarda `npm start`; adres `http://127.0.0.1:4175`. Windows'ta `ONIZLEMEYI_BASLAT.cmd` de kullanılabilir. Bağımlılık indirme gerekmez. ES modülleri için yerel sunucu gereklidir.
 
-Bu dosya korunacak referanstır; geliştirme doğrudan üzerinde yapılmamalıdır.
+Arama, sıralama, birleşik filtreler, üçlü karşılaştırma, kaynak/tarih/durum gösterimi, paylaşılabilir detay ve işletmenin iletişim bağlantıları çalışır. Demo ilanlar ve görseller gerçek parsel değildir.
 
-SHA-256: `1e4a331a8e8b20bb44ba9d488a67f49a6139e60a5b173ae15a412eb88f742691`
+## Kontroller ve teslim
 
-## Durum
+- `npm test`: domain, içerik, iletişim ve HTTP testleri.
+- `npm run check`: JS/MJS sözdizimi; lint/typecheck değildir.
+- `npm run build`: `content/listings.json` içindeki onaylı gerçek kayıtlarla ayrı statik paket oluşturur. Demo kayıtları alınmaz. Liste boşsa iletişim sitesi hazırlanır.
+- `npm run release:check`: son paketin modül bütünlüğünü ve proje dosyalarının dışarıda kaldığını kontrol eder.
 
-Faz 1 temel kabulü ve Faz 2 demo karşılaştırma tamamlandı. Portföy kartlarından en fazla 3 kayıt seçilebilir; seçimler filtre değiştiğinde korunur, sayfa yenilendiğinde sıfırlanır. Detay ve karşılaştırmada alan bazında kaynak, kontrol tarihi ve bilgi durumu gösterilir. Gerçek doğrulama veya talep servisi bağlı değildir. Faz 2 testleri ve sınırları: `docs/PHASE_2_REPORT.md`.
+Kullanım, içerik şeması, yayın adımları ve kalan kapsam: [TESLIM_NOTLARI.md](TESLIM_NOTLARI.md). Son test raporu: [docs/DELIVERY_REPORT.md](docs/DELIVERY_REPORT.md). Altı fazın durumu: [docs/ROADMAP.md](docs/ROADMAP.md).
 
-## Yeni uygulamayı çalıştırma
-
-Node.js kurulu ortamda proje dizininde `npm start` çalıştırın; `http://127.0.0.1:4173` adresini açın. Bağımlılık kurulumu gerekmez. ES modülleri nedeniyle yeni `index.html` doğrudan dosya olarak değil yerel sunucudan açılmalıdır. Sunucu yalnız bu bilgisayara açıktır.
-
-Kontroller: `npm test` ve `npm run check`. `check` sözdizimi kontrolüdür; lint veya typecheck değildir. Buildless uygulamada build adımı bulunmaz. `docs/ROADMAP.md` altı fazı ve karar kapılarını açıklar.
-
-Teknik bulgular ve plan: [docs/BASELINE_AUDIT.md](docs/BASELINE_AUDIT.md).
-
-Yerel Git deposu oluşturuldu. Domain/HTTP testleri ve sözdizimi kontrolü mevcut; lint/typecheck altyapısı yok. Faz 1'in Chrome üzerinde telefon, tablet, masaüstü ve temel klavye kontrolleri tamamlandı; kapsam ve sınırlamalar `docs/PHASE_1_REPORT.md` içinde kayıtlıdır.
+Özgün referans `reference/toprak_ehli_demo.html` korunur. SHA-256: `1e4a331a8e8b20bb44ba9d488a67f49a6139e60a5b173ae15a412eb88f742691`. Git kayıtları yereldir; yayın yapılmamıştır.
