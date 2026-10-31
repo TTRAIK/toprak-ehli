@@ -19,6 +19,7 @@ test('invalid price and area do not produce a unit price', () => {
     assert.equal(pricePerSquareMeter(100, value), null);
   }
   assert.equal(pricePerSquareMeter(4750000, 2500), 1900);
+  assert.equal(pricePerSquareMeter(Number.MAX_VALUE, Number.MIN_VALUE), null);
 });
 test('invalid missing numbers are excluded by numeric filters', () => {
   const invalid = [{ price: null, area: null }, { price: -1, area: -1 }];

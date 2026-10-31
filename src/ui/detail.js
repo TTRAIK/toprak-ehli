@@ -1,5 +1,6 @@
 import { element } from './listings.js';
-import { formatNumber, pricePerSquareMeter } from '../domain/properties.js';
+import { propertyFacts } from '../domain/facts.js';
+import { factContent } from './facts.js';
 
 export function createDetail(dialog) {
   let trigger;
@@ -14,14 +15,11 @@ export function createDetail(dialog) {
     dialog.querySelector('#detail-title').textContent = property.local;
     dialog.querySelector('#detail-location').textContent = property.region;
     const facts = dialog.querySelector('#detail-facts');
-    const unitPrice = pricePerSquareMeter(property.price, property.area);
-    const rows = [
-      ['Örnek fiyat', `${formatNumber(property.price)} TL`], ['Alan', `${formatNumber(property.area)} m²`],
-      ['Örnek m² fiyatı', unitPrice === null ? 'Hesaplanamadı' : `${formatNumber(unitPrice)} TL/m²`],
-      ['Tapu türü', `${property.type} (temsili, doğrulanmadı)`],
-      ...['Ada / parsel', 'İmar', 'Yol erişimi', 'Altyapı', 'Kaynak', 'Doğrulama tarihi', 'Fiyat tarihi'].map(label => [label, 'Bilgi sağlanmadı']),
-    ];
-    facts.replaceChildren(...rows.flatMap(([key, value]) => [element('dt', key), element('dd', value)]));
+    facts.replaceChildren(...propertyFacts(property).flatMap(fact => {
+      const value = element('dd');
+      value.append(factContent(fact));
+      return [element('dt', fact.label), value];
+    }));
     dialog.showModal();
   };
 }

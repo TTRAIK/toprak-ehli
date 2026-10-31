@@ -12,6 +12,8 @@ SHA-256: `1e4a331a8e8b20bb44ba9d488a67f49a6139e60a5b173ae15a412eb88f742691`
 
 ## Durum
 
+Faz 1 temel kabulü ve Faz 2 demo karşılaştırma tamamlandı. Portföy kartlarından en fazla 3 kayıt seçilebilir; seçimler filtre değiştiğinde korunur, sayfa yenilendiğinde sıfırlanır. Detay ve karşılaştırmada alan bazında kaynak, kontrol tarihi ve bilgi durumu gösterilir. Gerçek doğrulama veya talep servisi bağlı değildir. Faz 2 testleri ve sınırları: `docs/PHASE_2_REPORT.md`.
+
 ## Yeni uygulamayı çalıştırma
 
 Node.js kurulu ortamda proje dizininde `npm start` çalıştırın; `http://127.0.0.1:4173` adresini açın. Bağımlılık kurulumu gerekmez. ES modülleri nedeniyle yeni `index.html` doğrudan dosya olarak değil yerel sunucudan açılmalıdır. Sunucu yalnız bu bilgisayara açıktır.

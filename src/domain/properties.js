@@ -6,7 +6,9 @@ export function filterProperties(properties, { region = 'all', budget = 'all', t
 }
 
 export function pricePerSquareMeter(price, area) {
-  return Number.isFinite(price) && price > 0 && Number.isFinite(area) && area > 0 ? price / area : null;
+  if (!Number.isFinite(price) || price <= 0 || !Number.isFinite(area) || area <= 0) return null;
+  const result = price / area;
+  return Number.isFinite(result) && result > 0 ? result : null;
 }
 
 const numberFormat = new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 });
