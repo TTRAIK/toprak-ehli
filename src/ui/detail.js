@@ -1,6 +1,7 @@
 import { element } from './listings.js';
 import { propertyFacts } from '../domain/facts.js';
 import { factContent } from './facts.js';
+import { renderContact } from './contact.js';
 
 export function createDetail(dialog) {
   let trigger;
@@ -20,6 +21,7 @@ export function createDetail(dialog) {
       value.append(factContent(fact));
       return [element('dt', fact.label), value];
     }));
+    renderContact(dialog.querySelector('#detail-contact'), property);
     dialog.showModal();
   };
 }

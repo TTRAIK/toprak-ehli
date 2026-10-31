@@ -1,6 +1,6 @@
 # Toprak Ehli
 
-Mevcut teslimat bir tanıtım prototipidir. Gerçek ilan, talep gönderimi veya backend içermez.
+Mevcut teslimat bir tanıtım prototipidir. Gerçek ilan veya backend içermez. İşletmenin telefon/WhatsApp/e-posta bağlantıları vardır; sitede talep kaydı tutulmaz. Mesaj gönderimini kullanıcı kendi uygulamasında tamamlar.
 
 ## Demoyu açma
 

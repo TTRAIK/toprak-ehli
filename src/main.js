@@ -4,8 +4,10 @@ import { renderListings } from './ui/listings.js';
 import { createDetail } from './ui/detail.js';
 import { comparisonLimit, toggleComparison } from './domain/comparison.js';
 import { renderComparison } from './ui/comparison.js';
+import { renderContact } from './ui/contact.js';
 
 const form = document.querySelector('#filters');
+renderContact(document.querySelector('#contact-actions'));
 const openDetail = createDetail(document.querySelector('#detail'));
 let selectedIds = [];
 let currentFilters = {};
