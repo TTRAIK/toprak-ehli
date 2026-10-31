@@ -10,6 +10,7 @@
     "release:check": "node scripts/verify-release.mjs",
     "build:demo": "node scripts/build.mjs --demo",
     "admin:setup": "node scripts/admin-setup.mjs",
-    "admin": "node scripts/admin-start.mjs"
+    "admin": "node scripts/admin-start.mjs",
+    "build:vercel": "node scripts/vercel-build.mjs"
   }
 }

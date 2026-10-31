@@ -7,3 +7,8 @@ node_modules/
 .private/
 .test-environments/
 content/*.tmp
+.deploy/
+.vercel/
+
+.vercel
+.env*

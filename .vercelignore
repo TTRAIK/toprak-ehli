@@ -1,0 +1,13 @@
+/*
+!/index.html
+!/package.json
+!/vercel.json
+!/src
+!/scripts
+/scripts/*
+!/scripts/build.mjs
+!/scripts/content.mjs
+!/scripts/vercel-build.mjs
+!/content
+/content/*
+!/content/listings.json
