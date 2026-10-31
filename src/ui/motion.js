@@ -1,0 +1,29 @@
+export function createMotion() {
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  if (preference.matches || !('IntersectionObserver' in window)) return () => {};
+  const pending = new Set();
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+      pending.delete(entry.target);
+    }
+  }, { threshold: 0.08 });
+  document.documentElement.classList.add('motion-ready');
+  const reveal = root => {
+    for (const element of pending) if (!element.isConnected) { observer.unobserve(element); pending.delete(element); }
+    if (preference.matches) return;
+    root.querySelectorAll('.listing,.section-heading,.principles p,.faq,.contact-heading,.contact-panel').forEach(element => {
+    if (element.classList.contains('reveal')) return;
+    element.classList.add('reveal');
+    observer.observe(element);
+    pending.add(element);
+    });
+  };
+  document.addEventListener('focusin', event => event.target.closest('.reveal')?.classList.add('is-visible'));
+  preference.addEventListener('change', event => {
+    if (event.matches) { observer.disconnect(); pending.clear(); document.documentElement.classList.remove('motion-ready'); }
+  });
+  reveal(document);
+  return reveal;
+}

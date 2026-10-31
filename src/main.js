@@ -7,8 +7,10 @@ import { renderComparison } from './ui/comparison.js';
 import { renderContact, renderWhatsAppShortcut } from './ui/contact.js';
 import { initializeSite } from './ui/site.js';
 import { site } from './data/site.js';
+import { createMotion } from './ui/motion.js';
 
 const form = document.querySelector('#filters');
+const reveal = createMotion();
 initializeSite(properties);
 renderContact(document.querySelector('#contact-actions'));
 renderWhatsAppShortcut();
@@ -33,6 +35,7 @@ function render() {
   document.querySelector('#comparison-status').textContent = `${selectedIds.length} / ${comparisonLimit} portföy seçildi. ${selectedIds.length === comparisonLimit ? 'Yeni seçim için bir portföyü kaldırın.' : 'Seçimler filtre değiştiğinde korunur.'}`;
   renderComparison(document.querySelector('#comparison'), properties.filter(property => selectedIds.includes(property.id)), id => toggle(id, true));
   document.querySelector('#clear-comparison').disabled = !selectedIds.length;
+  reveal(document.querySelector('#listings'));
 }
 form.addEventListener('submit', event => {
   event.preventDefault();

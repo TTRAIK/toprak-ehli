@@ -10,6 +10,8 @@ Node.js kurulu bilgisayarda `npm start`; adres `http://127.0.0.1:4175`. Windows'
 
 Arama, sıralama, birleşik filtreler, üçlü karşılaştırma, kaynak/tarih/durum gösterimi, paylaşılabilir detay ve işletmenin iletişim bağlantıları çalışır. Demo ilanlar ve görseller gerçek parsel değildir.
 
+Görsel yenileme: yeşil/altın tasarım, temsili AI açılış görseli, hareket azaltma destekli animasyonlar, responsive kartlar ve açılır sorular. Kapsam ve görsel üretim bilgisi: [docs/REDESIGN_REPORT.md](docs/REDESIGN_REPORT.md).
+
 ## Kontroller ve teslim
 
 - `npm test`: domain, içerik, iletişim ve HTTP testleri.
