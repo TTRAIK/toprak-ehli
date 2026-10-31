@@ -4,7 +4,7 @@ const fields = [['price','Fiyat'],['area','Alan'],['type','Tapu türü'],['parce
 let records = [], revision = '', csrf = '', editing = null, busy = false;
 const node = (tag, text) => { const result = document.createElement(tag); if (text != null) result.textContent = text; return result; };
 function status(message, error = false) { $('#status').textContent = message; $('#status').dataset.error = String(error); }
-function locked(value) { busy = value; document.querySelectorAll('button').forEach(button => { button.disabled = value; }); }
+function locked(value) { busy = value; document.querySelectorAll('button,#photo-upload').forEach(control => { control.disabled = value; }); }
 async function api(path, data) {
   const response = await fetch(path, { credentials: 'same-origin', headers: data ? { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf } : {}, method: data ? 'POST' : 'GET', body: data ? JSON.stringify(data) : undefined });
   const result = await response.json();
@@ -55,22 +55,40 @@ function edit(record = null) {
 }
 async function refresh() {
   const data = await api('/api/records'); records = data.records; revision = data.revision;
+  renderRecords();
+  $('#metric-total').textContent=records.length;
+  $('#metric-photo').textContent=records.filter(record=>record.image).length;
+  $('#metric-missing').textContent=records.filter(record=>!record.price||!record.area).length;
+  const saved = await api('/api/backups');
+  $('#metric-backups').textContent=saved.backups.length;
+  renderBackups(saved.backups);
+}
+function renderRecords() {
+  const query=$('#record-search').value.trim().toLocaleLowerCase('tr-TR');
+  const matches=records.filter(record=>`${record.local} ${record.region} ${record.id}`.toLocaleLowerCase('tr-TR').includes(query));
   $('#records').replaceChildren();
-  if (!records.length) $('#records').append(node('p','Henüz gerçek portföy eklenmedi.'));
-  for (const record of records) {
+  if (!matches.length) { const empty=node('div');empty.className='empty-state';empty.append(node('strong',records.length?'Eşleşen portföy bulunamadı.':'İlk portföyünüzü ekleyin.'),node('p',records.length?'Farklı bir konum veya kayıt numarası deneyin.':'Yeni portföy düğmesiyle bilgileri ve fotoğrafları eklemeye başlayın.'));$('#records').append(empty); }
+  $('#record-count').textContent=`${matches.length} / ${records.length} portföy gösteriliyor`;
+  for (const record of matches) {
     const row = node('div'); row.className = 'record-row';
     const title = node('div'); title.append(node('strong',record.local),node('span',`${record.region} · ${record.id}`));
+    title.className='record-title';
+    const summary=node('div');summary.className='record-summary';
+    summary.append(node('strong',record.price?`${new Intl.NumberFormat('tr-TR').format(record.price)} TL`:'Fiyat bekleniyor'),node('span',`${record.area?new Intl.NumberFormat('tr-TR').format(record.area)+' m²':'Alan bekleniyor'} · ${record.type}`));
+    const badge=node('small',record.image?'Fotoğraf eklendi':'Fotoğraf bekleniyor');badge.className=record.image?'badge':'badge muted-badge';summary.append(badge);
     const actions = node('div'); actions.className = 'toolbar';
     actions.append(button('Düzenle',()=>edit(record),`${record.local} düzenle`),button('Kaldır',async()=>{
       if (busy || !await ask(`${record.local} kaydı kaldırılsın mı? Önceki sürüm yedeklenecek.`)) return;
       locked(true);
       try { await api('/api/records',{ records:records.filter(item=>item.id!==record.id),revision }); await refresh(); $('#editor').hidden=true; status('Kayıt kaldırıldı; önceki sürüm yedeklendi.'); }
       catch(error) { status(error.message,true); } finally { locked(false); }
-    },`${record.local} kaldır`)); row.append(title,actions); $('#records').append(row);
+    },`${record.local} kaldır`)); row.append(title,summary,actions); $('#records').append(row);
   }
-  const saved = await api('/api/backups'); $('#backups').replaceChildren();
-  if (!saved.backups.length) $('#backups').append(node('p','İlk değişiklikten sonra yedek oluşur.'));
-  for (const backup of saved.backups) {
+}
+function renderBackups(backups) {
+  $('#backups').replaceChildren();
+  if (!backups.length) $('#backups').append(node('p','İlk değişiklikten sonra yedek oluşur.'));
+  for (const backup of backups) {
     const row = node('div'); row.className = 'backup-row';
     row.append(node('span',new Date(Number(backup.split('-')[0])).toLocaleString('tr-TR')),button('Bu sürüme dön',async()=>{
       if (busy || !await ask('Seçilen yedek geri yüklensin mi? Mevcut kayıtlar da yedeklenecek.')) return;
@@ -86,6 +104,21 @@ $('#login-form').addEventListener('submit',async event=>{
   catch(error) { status(error.message,true); } finally { locked(false); }
 });
 $('#new').addEventListener('click',()=>edit());
+$('#record-search').addEventListener('input',renderRecords);
+$('#photo-upload').addEventListener('change',async event=>{
+  const file=event.target.files[0];
+  if(!file||busy)return;
+  if(file.size>4*1024*1024){status('Fotoğraf en fazla 4 MB olabilir.',true);event.target.value='';return;}
+  locked(true);status('Fotoğraf yükleniyor…');
+  try{
+    const response=await fetch('/api/image',{method:'POST',credentials:'same-origin',headers:{'Content-Type':file.type,'X-CSRF-Token':csrf},body:file});
+    const result=await response.json();
+    if(response.status===401)showLogin();
+    if(!response.ok)throw new Error(result.error||'Fotoğraf yüklenemedi.');
+    form.elements.image.value=result.path;
+    status('Fotoğraf hazır. Açıklamasını yazıp Kaydet ile portföye bağlayın.');
+  }catch(error){status(error.message,true);}finally{locked(false);event.target.value='';}
+});
 $('#cancel').addEventListener('click',()=>{ $('#editor').hidden=true; });
 $('#logout').addEventListener('click',async()=>{ locked(true); try { await api('/api/logout',{}); showLogin(); status('Çıkış yapıldı.'); } catch(error) { status(error.message,true); } finally { locked(false); } });
 form.addEventListener('submit',async event=>{
