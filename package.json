@@ -1,0 +1,10 @@
+{
+  "name": "toprak-ehli",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test",
+    "check": "node scripts/check.mjs"
+  }
+}

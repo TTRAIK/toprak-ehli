@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Toprak Ehli yerel geliştirme önizlemesi. Portföyler temsili örnektir.">
+  <title>Toprak Ehli — Arsa ve Arazi</title>
+  <link rel="stylesheet" href="src/styles.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">İçeriğe geç</a>
+  <div class="notice">Geliştirme önizlemesi · Tüm portföyler temsili, bilgiler doğrulanmamıştır.</div>
+  <header class="header wrap">
+    <a class="brand" href="#">TOPRAK EHLİ <small>ARSA & ARAZİ</small></a>
+    <nav aria-label="Ana menü"><a href="#portfoy">Portföyler</a><a href="#yaklasim">Yaklaşımımız</a><a href="#iletisim">İletişim</a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap">
+      <p class="eyebrow">TRAKYA’DAN BAŞLAYAN BİR BAKIŞ</p>
+      <h1>Toprağı tanı.<br>Bilgiyle karar ver.</h1>
+      <div class="hero-bottom"><p>Araziyi yalnız fiyatıyla değerlendirmeyin. Konum, tapu, erişim ve bilginin kaynağını birlikte inceleyin.</p><a class="button" href="#portfoy">Örnek portföyleri incele ↗</a></div>
+      <div class="landscape" aria-hidden="true"><span>TEKİRDAĞ / TRAKYA</span></div>
+      <p class="caption">Şematik arazi çizimi · Gerçek parsel, konum veya fotoğraf değildir.</p>
+    </section>
+    <section class="portfolio wrap" id="portfoy" aria-labelledby="portfolio-title">
+      <div class="section-heading"><div><p class="eyebrow">PORTFÖY KEŞFİ</p><h2 id="portfolio-title">Araziye yakından bakın.</h2></div><p>Temsili kayıtlar. Satış ilanı değildir.</p></div>
+      <form id="filters" class="filters">
+        <label>Bölge<select name="region"><option value="all">Tüm bölgeler</option><option>Marmara Ereğlisi</option><option>Tekirdağ</option></select></label>
+        <label>En yüksek fiyat<select name="budget"><option value="all">Tüm fiyatlar</option><option value="4000000">4.000.000 TL</option><option value="5500000">5.500.000 TL</option><option value="7500000">7.500.000 TL</option></select></label>
+        <label>Tapu türü<select name="type"><option value="all">Tümü</option><option>Müstakil</option><option>Hisseli</option></select></label>
+        <label>En az alan<select name="size"><option value="all">Tüm alanlar</option><option value="2000">2.000 m²</option><option value="3000">3.000 m²</option><option value="5000">5.000 m²</option></select></label>
+        <button class="button" type="submit">Listele</button><button class="reset" type="reset">Sıfırla</button>
+      </form>
+      <p id="results" role="status"></p><div id="listings" class="listings"></div>
+      <noscript>Portföy filtreleme ve detaylar için JavaScript gereklidir.</noscript>
+    </section>
+    <section class="approach" id="yaklasim"><div class="wrap"><p class="eyebrow">ÇALIŞMA İLKEMİZ</p><h2>Güven, bilginin<br>kaynağından başlar.</h2><div class="principles"><p><strong>01 / Kaynağı görünür bilgi</strong>Gerçek ilan sisteminde bilgiler kaynak ve doğrulama tarihiyle sunulacak.</p><p><strong>02 / Eksiklere açık yaklaşım</strong>Sağlanmayan bilgiler açıkça işaretlenir. Tahminle doldurulmaz.</p><p><strong>03 / Bilinçli değerlendirme</strong>Getiri garantisi verilmez. Bu önizleme yatırım tavsiyesi içermez.</p></div></div></section>
+    <section class="contact wrap" id="iletisim"><p class="eyebrow">İLETİŞİM</p><h2>Önce doğru sorular.</h2><p>İletişim kanalları henüz tanımlanmadı. Bu önizleme talep toplamaz veya mesaj göndermez.</p></section>
+  </main>
+  <footer class="wrap">TOPRAK EHLİ <span>Yerel geliştirme · Temsili içerik</span></footer>
+  <dialog id="detail" aria-labelledby="detail-title"><div class="dialog-head"><span class="eyebrow">TEMSİLİ PORTFÖY</span><button id="close-detail" type="button" autofocus>Kapat ×</button></div><h2 id="detail-title"></h2><p id="detail-location"></p><dl id="detail-facts"></dl><p class="disclaimer">Bu kayıt gerçek satış ilanı değildir. Tapu, imar, yol ve altyapı bilgileri doğrulanmamıştır. İlgili kurum ve uzmanlardan güncel bilgi alınmalıdır.</p></dialog>
+</body>
+</html>
