@@ -5,6 +5,8 @@ import { randomBytes } from 'node:crypto';
 import { join } from 'node:path';
 import { createAdminStore, AdminError } from './admin-store.mjs';
 import { passwordMatches } from './admin-auth.mjs';
+import { saveUploadedImage } from './admin-media.mjs';
+import { createLocalServer } from './local-server.mjs';
 
 const assets = fileURLToPath(new URL('../admin/', import.meta.url));
 const routes = { '/': ['index.html', 'text/html; charset=utf-8'], '/app.js': ['app.js', 'text/javascript; charset=utf-8'], '/style.css': ['style.css', 'text/css; charset=utf-8'] };
@@ -21,6 +23,7 @@ async function body(request) {
 
 export function createAdminServer(root, credentials, { maxAttempts = 5, sessionMs = 3_600_000 } = {}) {
   const store = createAdminStore(root);
+  const previewServer = createLocalServer(root);
   const sessions = new Map();
   let failures = 0;
   let blockedUntil = 0;
@@ -64,6 +67,17 @@ export function createAdminServer(root, credentials, { maxAttempts = 5, sessionM
       if (path === '/api/session' && request.method === 'GET') { send(200, { authenticated: Boolean(session), ...(session ? { csrf: session.csrf } : {}) }); return; }
       if (!session) throw new AdminError(401, 'Oturum açın.');
       if (request.method === 'POST' && request.headers['x-csrf-token'] !== session.csrf) throw new AdminError(403, 'Güvenlik kontrolü başarısız. Sayfayı yenileyin.');
+      if(path==='/api/image' && request.method==='POST'){send(201,await saveUploadedImage(root,request));return;}
+      if(request.method==='GET' && path.startsWith('/preview/')){
+        if(path==='/preview/src/data/properties.js'){
+          const {records}=await store.read();response.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8'});response.end(`export const properties = ${JSON.stringify(records)};`);return;
+        }
+        if(path==='/preview/src/data/site.js'){
+          response.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8'});response.end('export const site = { preview: false };');return;
+        }
+        request.url=request.url.replace(/^\/preview/,'');
+        previewServer.emit('request',request,response);return;
+      }
       if (path === '/api/records' && request.method === 'GET') {
         const { records, revision } = await store.read(); send(200, { records, revision }); return;
       }

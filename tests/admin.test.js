@@ -11,6 +11,7 @@ async function fixture(t, options) {
   const prefix=join(tmpdir(),'toprak-ehli-admin-');
   const root=await mkdtemp(prefix);
   await mkdir(join(root,'content')); await writeFile(join(root,'content/listings.json'),'[]\n');
+  await writeFile(join(root,'index.html'),'<!doctype html><html lang="tr"><title>Test preview</title></html>');
   const password='Fixture-only-long-password!';
   const server=createAdminServer(root,await passwordHash(password),options);
   await new Promise(done=>server.listen(0,'127.0.0.1',done));
@@ -23,7 +24,11 @@ async function fixture(t, options) {
     return {status:response.status,headers:response.headers,data:contentType?.includes('application/json')?await response.json():await response.text()};
   }
   async function login() { const response=await request('/api/login',{password}); assert.equal(response.status,200); cookie=response.headers.get('set-cookie').split(';')[0]; csrf=response.data.csrf; return response; }
-  return {root,request,login,origin};
+  async function upload(bytes,type='image/png',headers={}) {
+    const response=await fetch(origin+'/api/image',{method:'POST',headers:{'Content-Type':type,Origin:origin,Cookie:cookie,'X-CSRF-Token':csrf,...headers},body:bytes});
+    return {status:response.status,data:await response.json()};
+  }
+  return {root,request,login,origin,upload};
 }
 
 test('admin denies unauthenticated, cross-origin, forged host and CSRF writes; logout revokes session',async t=>{
@@ -68,4 +73,31 @@ test('login attempts are limited and expired sessions cannot read records',async
   assert.equal((await app.request('/api/login',{password:'wrong'})).status,401);
   assert.equal((await app.request('/api/login',{password:'wrong'})).status,401);
   assert.equal((await app.request('/api/login',{password:'wrong'})).status,429);
+});
+
+test('photo upload validates content, size and CSRF; protected preview serves saved records and images',async t=>{
+  const app=await fixture(t);
+  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jF1sAAAAASUVORK5CYII=','base64');
+  assert.equal((await app.upload(png)).status,401);
+  assert.equal((await app.request('/preview/')).status,401);
+  await app.login();
+  assert.equal((await app.upload(png,'image/png',{'X-CSRF-Token':''})).status,403);
+  assert.equal((await app.upload(Buffer.from('<svg onload="alert(1)"></svg>'))).status,415);
+  assert.equal((await app.upload(png,'image/jpeg')).status,415);
+  assert.equal((await app.upload(Buffer.alloc(4*1024*1024+1))).status,413);
+  const bomb=Buffer.from(png);bomb.writeUInt32BE(10001,16);
+  assert.equal((await app.upload(bomb)).status,415);
+  const uploaded=await app.upload(png);
+  assert.equal(uploaded.status,201);
+  assert.match(uploaded.data.path,/^src\/assets\/upload-[a-f0-9]{32}\.png$/);
+  assert.ok((await readFile(join(app.root,uploaded.data.path))).equals(png));
+  const state=(await app.request('/api/records')).data;
+  const record={id:'photo-test',region:'Test',local:'Fotoğraf testi',type:'Müstakil',price:null,area:100,isDemo:false,publicationApproved:true,image:uploaded.data.path,imageAlt:'Test fotoğrafı'};
+  assert.equal((await app.request('/api/records',{records:[record],revision:state.revision})).status,200);
+  assert.equal((await app.request('/preview/')).status,200);
+  assert.match((await app.request('/preview/src/data/properties.js')).data,/photo-test/);
+  assert.match((await app.request('/preview/src/data/site.js')).data,/preview: false/);
+  const image=await app.request('/preview/'+uploaded.data.path);
+  assert.equal(image.status,200);assert.match(image.headers.get('content-type'),/image\/png/);
+  assert.equal((await app.request('/preview/.private/admin-auth.json')).status,404);
 });

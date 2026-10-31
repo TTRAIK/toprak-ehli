@@ -12,7 +12,7 @@ async function api(path, data) {
   if (!response.ok) throw new Error(result.error || 'İşlem başarısız.');
   return result;
 }
-function showLogin() { $('#workspace').hidden = true; $('#login').hidden = false; csrf = ''; records = []; revision = ''; $('#records').replaceChildren(); $('#editor').hidden = true; }
+function showLogin() { document.body.classList.add('signed-out'); $('#workspace').hidden = true; $('#login').hidden = false; csrf = ''; records = []; revision = ''; $('#records').replaceChildren(); $('#editor').hidden = true; }
 function button(label, action, name) { const result = node('button', label); result.type = 'button'; if (name) result.setAttribute('aria-label', name); result.addEventListener('click', action); return result; }
 function ask(message) {
   return new Promise(done=>{
@@ -51,7 +51,7 @@ function edit(record = null) {
     fieldset.append(grid); $('#evidence').append(fieldset);
   }
   $('#editor-title').textContent = editing ? `${record.local} — Düzenle` : 'Yeni portföy';
-  $('#editor').hidden = false; form.elements.id.focus(); status('');
+  $('#editor').hidden = false; $('#editor').scrollIntoView({block:'start'}); form.elements.id.focus({preventScroll:true}); status('');
 }
 async function refresh() {
   const data = await api('/api/records'); records = data.records; revision = data.revision;
@@ -100,7 +100,7 @@ function renderBackups(backups) {
 }
 $('#login-form').addEventListener('submit',async event=>{
   event.preventDefault(); if (busy) return; locked(true);
-  try { csrf=(await api('/api/login',{password:event.target.elements.password.value})).csrf; event.target.reset(); await refresh(); $('#login').hidden=true; $('#workspace').hidden=false; status('Giriş yapıldı.'); }
+  try { csrf=(await api('/api/login',{password:event.target.elements.password.value})).csrf; event.target.reset(); await refresh(); $('#login').hidden=true; $('#workspace').hidden=false; document.body.classList.remove('signed-out'); status('Giriş yapıldı.'); }
   catch(error) { status(error.message,true); } finally { locked(false); }
 });
 $('#new').addEventListener('click',()=>edit());
@@ -135,5 +135,5 @@ form.addEventListener('submit',async event=>{
   catch(error) { status(error.message,true); } finally { locked(false); }
 });
 $('#export').addEventListener('click',()=>{ const blob=new Blob([JSON.stringify(records,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const link=node('a'); link.href=url; link.download='toprak-ehli-portfoyler.json'; link.click(); setTimeout(()=>URL.revokeObjectURL(url),1000); });
-try { const session=await api('/api/session'); if(session.authenticated) { csrf=session.csrf; await refresh(); $('#login').hidden=true; $('#workspace').hidden=false; } }
+try { const session=await api('/api/session'); if(session.authenticated) { csrf=session.csrf; await refresh(); $('#login').hidden=true; $('#workspace').hidden=false; document.body.classList.remove('signed-out'); } }
 catch(error) { if(error.message!=='Oturum açın.') status(error.message,true); }
