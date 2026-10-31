@@ -1,5 +1,6 @@
 import { contact, contactLinks } from '../data/contact.js';
 import { element } from './listings.js';
+import { site } from '../data/site.js';
 
 export function renderContact(container, property) {
   container.replaceChildren();
@@ -22,7 +23,7 @@ export function renderContact(container, property) {
     }
     links.append(link);
   }
-  container.append(links, element('p', 'Mesaj uygulamanızda hazırlanır; göndermeden önce inceleyebilirsiniz. Bu sitede talep kaydı oluşturulmaz.', 'muted'));
+  container.append(links, element('p', site.online ? 'WhatsApp ve e-posta mesajları ilgili uygulamada hazırlanır; göndermeden önce inceleyebilirsiniz.' : 'Mesaj uygulamanızda hazırlanır; göndermeden önce inceleyebilirsiniz. Bu sitede talep kaydı oluşturulmaz.', 'muted'));
 }
 
 export function renderWhatsAppShortcut() {

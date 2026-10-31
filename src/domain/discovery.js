@@ -4,7 +4,7 @@ const normalize = value => String(value ?? '').toLocaleLowerCase('tr-TR').trim()
 export function discoverProperties(properties, filters = {}) {
   const query = normalize(filters.query);
   const result = filterProperties(properties, filters).filter(property =>
-    normalize(`${property.local} ${property.region} ${property.id}`).includes(query));
+    normalize(`${property.title || ""} ${property.local} ${property.region} ${property.id}`).includes(query));
   const [key, direction] = { 'price-asc': ['price', 1], 'price-desc': ['price', -1], 'area-desc': ['area', -1] }[filters.sort] || [];
   if (key) result.sort((a, b) => {
     const validA = Number.isFinite(a[key]) && a[key] > 0;

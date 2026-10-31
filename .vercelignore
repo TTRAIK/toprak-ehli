@@ -1,6 +1,7 @@
 /*
 !/index.html
 !/package.json
+!/package-lock.json
 !/vercel.json
 !/src
 !/scripts
@@ -11,3 +12,9 @@
 !/content
 /content/*
 !/content/listings.json
+!/api
+!/server
+!/online
+!/admin
+/admin/*
+!/admin/style.css

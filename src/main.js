@@ -1,4 +1,6 @@
-import { properties } from './data/properties.js';
+import { properties as bundledProperties } from './data/properties.js';
+import { fetchPortfolio } from './data/remote.js';
+import { initializeInquiry } from './ui/inquiry.js';
 import { discoverProperties } from './domain/discovery.js';
 import { renderListings } from './ui/listings.js';
 import { createDetail } from './ui/detail.js';
@@ -9,9 +11,16 @@ import { initializeSite } from './ui/site.js';
 import { site } from './data/site.js';
 import { createMotion } from './ui/motion.js';
 
+let properties=bundledProperties, remoteRevision=null, loadError='';
+if(site.online){
+  document.querySelector('#results').textContent='Portföyler yükleniyor…';
+  try{const data=await fetchPortfolio();properties=data.records;remoteRevision=data.revision;}
+  catch(error){properties=[];loadError=error.message;}
+}
 const form = document.querySelector('#filters');
 const reveal = createMotion();
 initializeSite(properties);
+if(site.online) initializeInquiry(properties);
 renderContact(document.querySelector('#contact-actions'));
 renderWhatsAppShortcut();
 const openDetail = createDetail(document.querySelector('#detail'));
@@ -70,8 +79,29 @@ for (const control of form.elements) {
 }
 currentFilters = Object.fromEntries(new FormData(form));
 render();
-const requested = properties.find(property => property.id === params.get('property'));
+const requested = properties.find(property => property.id === (params.get('property') || location.pathname.match(/^\/ilan\/([a-z0-9-]+)$/)?.[1]));
 if (requested) {
   const trigger = [...document.querySelectorAll('.detail-button')].find(button => button.dataset.id === requested.id);
   openDetail(requested, trigger || document.querySelector('#portfolio-title'));
+}
+
+if(loadError){
+  const empty=document.querySelector('.empty');empty.querySelector('p').textContent=loadError;
+  const retry=document.createElement('button');retry.type='button';retry.className='button';retry.textContent='Yeniden dene';retry.addEventListener('click',()=>location.reload());empty.append(retry);
+}
+if(site.online && !loadError){
+  let updating=false;
+  async function synchronize(){
+    if(document.hidden || updating)return;updating=true;
+    try{const data=await fetchPortfolio();if(data.revision!==remoteRevision){
+      properties=data.records;remoteRevision=data.revision;selectedIds=selectedIds.filter(id=>properties.some(record=>record.id===id));
+      const region=form.elements.region;region.replaceChildren(new Option('Tüm bölgeler','all'));
+      document.querySelector('#filters').hidden=false;document.querySelector('.comparison').hidden=false;document.querySelector('#results').hidden=false;
+      initializeSite(properties);render();
+      const detail=document.querySelector('#detail');if(detail.open)detail.close();
+      document.querySelector('#results').textContent+=' Portföy bilgileri güncellendi.';
+    }}catch{document.querySelector('#results').textContent='Güncel bilgiler alınamadı. Yeniden yüklemeyi deneyin.';}
+    finally{updating=false;}
+  }
+  setInterval(synchronize,30000);document.addEventListener('visibilitychange',synchronize);
 }

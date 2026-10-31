@@ -26,6 +26,8 @@ export function renderListings(container, properties, onDetail, comparison) {
       if (property.isDemo) illustration.classList.add('demo-art');
       const image = element('img');
       image.src = property.image;
+      if(property.photos?.length)image.srcset=[480,960,1600].map(size=>`/api/platform/media/${property.photos[0].key}?size=${size} ${size}w`).join(',');
+      image.sizes='(max-width: 480px) 100vw, 50vw';
       image.alt = property.isDemo ? 'Temsili arazi görseli; bu kayıt veya konumun gerçek fotoğrafı değildir.' : property.imageAlt;
       image.loading = 'lazy';
       image.decoding = 'async';
@@ -34,7 +36,8 @@ export function renderListings(container, properties, onDetail, comparison) {
       image.addEventListener('error', () => illustration.replaceChildren(element('span', 'Görsel yüklenemedi', 'image-note')), { once: true });
       illustration.append(image, element('span', property.isDemo ? 'ÖRNEK GÖRSEL · GERÇEK PARSEL DEĞİLDİR' : 'PORTFÖY GÖRSELİ', 'image-note'));
     }
-    article.append(illustration, element('p', property.region, 'eyebrow'), element('h3', property.local));
+    article.append(illustration, element('p', property.region, 'eyebrow'), element('h3', property.title || property.local));
+    if(property.status==='sold')article.append(element('p','Satıldı','muted'));
     const price = describeFact(property, ['price', 'Fiyat', 'TL']);
     const area = describeFact(property, ['area', 'Alan', 'm²']);
     const titleType = describeFact(property, ['type', 'Tapu türü']);

@@ -25,7 +25,14 @@ export function createDetail(dialog) {
   dialog.addEventListener('close', () => trigger?.focus());
   return (property, button) => {
     trigger = button;
-    dialog.querySelector('#detail-title').textContent = property.local;
+    dialog.querySelector('#detail-title').textContent = property.title || property.local;
+    dialog.querySelector('.online-gallery')?.remove();
+    if(property.photos?.length || property.description){
+      const gallery=element('div',undefined,'online-gallery');
+      if(property.description)gallery.append(element('p',property.description));
+      for(const photo of property.photos || []){const image=element('img');image.src=`/api/platform/media/${photo.key}?size=960`;image.alt=photo.alt;image.loading='lazy';image.width=960;image.height=640;gallery.append(image);}
+      dialog.querySelector('#detail-location').after(gallery);
+    }
     dialog.querySelector('#detail-location').textContent = property.region;
     dialog.querySelector('.dialog-head .eyebrow').textContent = property.isDemo ? 'TEMSİLİ PORTFÖY' : 'PORTFÖY BİLGİSİ';
     dialog.querySelector('.disclaimer').textContent = property.isDemo
@@ -33,7 +40,8 @@ export function createDetail(dialog) {
       : 'Kaynak ve kontrol tarihlerini inceleyin. Sağlanmamış bilgiler doğrulanmış kabul edilmez. Güncel tapu ve imar bilgilerini ilgili kurumlarla kontrol edin.';
     const shareUrl = new URL(location.href);
     shareUrl.search = '';
-    shareUrl.searchParams.set('property', property.id);
+    if(property.photos)shareUrl.pathname=`/ilan/${encodeURIComponent(property.id)}`;
+    else shareUrl.searchParams.set('property', property.id);
     shareUrl.hash = 'portfoy';
     dialog.querySelector('#property-link').value = shareUrl.href;
     dialog.querySelector('#share-status').textContent = '';

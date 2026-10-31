@@ -1,9 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "installCommand": "",
+  "installCommand": "npm ci --omit=dev",
   "buildCommand": "npm run build:vercel",
   "outputDirectory": ".deploy/site",
+  "functions": { "api/platform/[...path].js": { "includeFiles": ".deploy/site/index.html", "maxDuration": 30 } },
+  "rewrites": [
+    { "source": "/ilan/:id", "destination": "/api/platform/property?id=:id" },
+    { "source": "/sitemap.xml", "destination": "/api/platform/sitemap" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
