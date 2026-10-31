@@ -10,5 +10,5 @@ async function check(directory) {
     }
   }
 }
-for (const directory of ['src', 'scripts', 'tests']) await check(directory);
+for (const directory of ['src', 'scripts', 'tests', 'admin']) await check(directory);
 if (!process.exitCode) console.log('JavaScript syntax PASS');

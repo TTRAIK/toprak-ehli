@@ -29,7 +29,7 @@ async function check(directory) {
   }
 }
 await check(join(root, 'src'));
-for (const file of ['.env', '.git', 'content', 'docs', 'tests', 'scripts', 'reference', 'package.json']) {
+for (const file of ['.env', '.git', '.private', '.test-environments', 'admin', 'content', 'docs', 'tests', 'scripts', 'reference', 'package.json']) {
   await assert.rejects(stat(join(root, file)), { code: 'ENOENT' });
 }
 console.log(`Paket kontrolü PASS: ${records.length} ${demo ? 'DEMO' : 'onaylı'} kayıt, tüm JS modülleri mevcut; proje/özel dosyalar web kökünde yok.`);

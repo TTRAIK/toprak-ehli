@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Toprak Ehli — Yerel yönetim</title><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head>
+<body><main><header><p class="eyebrow">TOPRAK EHLİ</p><h1>Portföy yönetimi</h1><p>Bu panel yalnız bu bilgisayarda çalışır. Kaydetmek canlı siteye yayınlamaz.</p></header>
+<p id="status" role="status" aria-live="polite"></p>
+<section id="login"><h2>Yönetici girişi</h2><form id="login-form"><label>Yönetim parolası<input name="password" type="password" autocomplete="current-password" required maxlength="256"></label><button>Giriş yap</button></form></section>
+<section id="workspace" hidden><div class="toolbar"><button id="new" type="button">Yeni portföy</button><button id="export" type="button">JSON dışa aktar</button><button id="logout" type="button" class="secondary">Çıkış yap</button></div>
+<h2>Kayıtlar</h2><div id="records"></div>
+<section id="editor" hidden><h2 id="editor-title">Portföy bilgileri</h2><form id="record-form"><div class="grid">
+<label>Kayıt no<input name="id" required pattern="[a-z0-9-]{1,60}" maxlength="60" placeholder="ilan-001"></label>
+<label>Bölge<input name="region" required maxlength="150"></label><label>Mahalle / konum<input name="local" required maxlength="150"></label>
+<label>Tapu türü<select name="type"><option>Müstakil</option><option>Hisseli</option><option>Bilgi sağlanmadı</option></select></label>
+<label>Fiyat (TL)<input name="price" type="number" min="0.01" step="any" placeholder="Bilinmiyorsa boş bırakın"></label><label>Alan (m²)<input name="area" type="number" min="0.01" step="any" placeholder="Bilinmiyorsa boş bırakın"></label>
+<label>Ada / parsel<input name="parcel" maxlength="1000"></label><label>İmar<input name="zoning" maxlength="1000"></label><label>Yol erişimi<input name="road" maxlength="1000"></label><label>Altyapı<input name="utilities" maxlength="1000"></label>
+<label>Yerel fotoğraf yolu<input name="image" placeholder="src/assets/ilan-001.webp"></label><label>Fotoğraf açıklaması<input name="imageAlt" maxlength="300"></label></div>
+<p>Yalnız kullanım izni olan gerçek fotoğrafları kullanın. Dosyayı önce src/assets klasörüne koyun. Kaynak alanları ziyaretçilere açıktır; özel belge veya kişisel not girmeyin.</p>
+<h3>Bilginin kaynağı</h3><div id="evidence"></div><label class="check"><input name="publicationApproved" type="checkbox" required>İşletme bu kaydın yayın içeriğine alınmasına izin verdi.</label><p>Kaynak ve tarih yoksa bilgiyi doğrulanmış işaretlemeyin. Gerçekliği bu panel otomatik kontrol etmez.</p>
+<div class="toolbar"><button id="save" type="submit">Kaydet</button><button id="cancel" type="button" class="secondary">Vazgeç</button></div></form></section>
+<h2>Yedekler</h2><p>Her değişiklikten önce önceki kayıtlar yedeklenir. Geri yükleme mevcut sürümü de yedekler.</p><div id="backups"></div>
+</section><footer>Yayın paketini hazırlamak için proje klasöründe npm run build çalıştırılır. Domain ve sunucu kurulumu bu panelden yapılmaz.</footer></main><dialog id="confirmation" aria-labelledby="confirmation-title"><h2 id="confirmation-title">İşlemi onayla</h2><p id="confirmation-message"></p><form method="dialog" class="toolbar"><button value="cancel" class="secondary" autofocus>Vazgeç</button><button value="confirm">Onayla</button></form></dialog></body></html>

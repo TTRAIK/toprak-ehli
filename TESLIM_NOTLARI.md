@@ -1,6 +1,6 @@
 # Toprak Ehli — Teslim ve kullanım
 
-31 Ekim 2026. Bu teslim, müşteriye sunulabilen yerel demo ve yüklemeye hazır statik iletişim sitesidir. Altı fazın tamamlandığı veya sunucuda talep/yönetim sistemi bulunduğu anlamına gelmez.
+31 Ekim 2026. Bu teslim, müşteriye sunulabilen yerel demo, yüklemeye hazır statik iletişim sitesi ve tek yönetici için yerel portföy panelidir. Altı fazın tamamlandığı veya üretimde talep/yönetim sistemi bulunduğu anlamına gelmez.
 
 ## Açma
 
@@ -51,7 +51,9 @@ Fotoğraf eklemek için izinli dosyayı `src/assets/` içine koyup `image: "src/
 
 ## Kalan kapsam
 
-Sunucuda talep formu, yönetim paneli, hesap/roller, dosya yükleme, kayıt geçmişi, yedek/geri yükleme ve izleme henüz uygulanmadı. Bunlar hosting/backend, yetkiler, gerekli form alanları, veri saklama/silme süresi ve işletmenin onaylı hukuki metinleri belirlenince yapılacak. Bu kararlar olmadan kişisel veri toplayan bir form açılmadı. Site şu an iletişim bağlantılarıyla kullanılabilir.
+Yerel tek yönetici paneli, içerik yedeği ve geri yükleme hazırdır; kullanım: `docs/ADMIN_GUIDE.md`. İlk kullanımda `npm run admin:setup` ile kendi parolanızı oluşturun, sonra `npm run admin` çalıştırın. Bu panel 4180 portunda yalnız yerelde çalışır; canlıya açılmamalıdır.
+
+Sunucuda müşteri talep formu, üretim yönetimi/çok kullanıcılı roller, dosya yükleme, tam audit sistemi, uzak yedek ve izleme henüz uygulanmadı. Bunlar hosting/backend, yetkiler, gerekli form alanları, veri saklama/silme süresi ve işletmenin onaylı hukuki metinleri belirlenince yapılacak. Bu kararlar olmadan kişisel veri toplayan bir form açılmadı. Site şu an iletişim bağlantılarıyla kullanılabilir.
 
 ## Geri dönüş
 

@@ -2,7 +2,7 @@
 
 Her faz küçük görevlerle ilerler. Bir fazın başarısız kontrolü çözülmeden sonraki özelliklere geçilmez. Yayın ayrı onay kapısıdır.
 
-31 Ekim teslim durumu: Faz 1 temel kabulü ve Faz 2 demo kapsamı tamamlandı. Faz 3 iletişim bağlantıları çalışır; sunucu kayıt sistemi yok. Faz 4 yönetim/roller henüz yapılmadı. Faz 5 gerçek fotoğraf ve ilanlar kullanıcı kararıyla sonraya bırakıldı. Faz 6 yerel test ve paketleme yapıldı; hosting/domain, gerçek ortam kabulü ve yayın sonraya bırakıldı. Son kapsam ve kanıtlar: `DELIVERY_REPORT.md`.
+31 Ekim teslim durumu: Faz 1 temel kabulü ve Faz 2 demo kapsamı tamamlandı. Faz 3 iletişim bağlantıları çalışır; sunucu kayıt sistemi yok. Faz 4 yerel tek yönetici paneli, içerik yedeği/geri yükleme tamamlandı; üretim rolleri, yükleme ve tam audit henüz yok (ADMIN_REPORT.md). Faz 5 gerçek fotoğraf ve ilanlar kullanıcı kararıyla sonraya bırakıldı. Faz 6 yerel test ve paketleme yapıldı; hosting/domain, gerçek ortam kabulü ve yayın sonraya bırakıldı. Son kapsam ve kanıtlar: `DELIVERY_REPORT.md`.
 
 | Faz | Teslim | Kabul / test | Dosya alanları | Geri dönüş |
 |---|---|---|---|---|

@@ -31,7 +31,7 @@ test('local HTTP routing, headers and file access boundaries', async t => {
     }
   });
   await t.test('private files, raw encoded traversal and malformed URLs are rejected', async () => {
-    for (const path of ['/package.json', '/docs/ROADMAP.md', '/reference/toprak_ehli_demo.html', '/src/missing.js', '/src/../../README.md', '/src/%2e%2e%2f%2e%2e%2fREADME.md', '/src/%2e%2e%5c%2e%2e%5cREADME.md', '/src/%ZZ']) {
+    for (const path of ['/admin/', '/.private/admin-auth.json', '/package.json', '/docs/ROADMAP.md', '/reference/toprak_ehli_demo.html', '/src/missing.js', '/src/../../README.md', '/src/%2e%2e%2f%2e%2e%2fREADME.md', '/src/%2e%2e%5c%2e%2e%5cREADME.md', '/src/%ZZ']) {
       const result = await send(path);
       assert.equal(result.status, 404, path);
       assert.equal(result.body, 'Not found');

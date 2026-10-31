@@ -1,6 +1,8 @@
 # Toprak Ehli
 
-Modüler arsa ve arazi sitesi. Yerel demo, iletişim bağlantıları ve ayrı statik yayın paketi içerir. Gerçek talep backend'i veya yönetim paneli henüz yoktur.
+Modüler arsa ve arazi sitesi. Yerel demo, iletişim bağlantıları, ayrı statik yayın paketi ve tek yönetici için yerel portföy paneli içerir. Gerçek müşteri talep backend'i henüz yoktur.
+
+Yerel yönetim: önce `npm run admin:setup` ile kendi parolanızı oluşturun, sonra `npm run admin` ile `http://127.0.0.1:4180` adresini açın. Kullanım ve sınırlar: [docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md).
 
 ## Kullanım
 
