@@ -52,13 +52,16 @@ test('PostgreSQL migration and API integration (PGlite; Auth/Storage transport s
     const response=await createPlatform({env:{}})(new Request(env.SITE_URL+'/api/platform/public'));assert.equal(response.status,503);
   });
   await t.test('anon/authenticated roles cannot read tables or execute privileged RPC',async()=>{
-    await sql.exec('set role anon');await assert.rejects(sql.query('select * from public.te_leads'));await assert.rejects(sql.query("select public.te_rate('x',1,60)"));await sql.exec('reset role');
+    for(const role of ['anon','authenticated']){await sql.exec(`set role ${role}`);await assert.rejects(sql.query('select * from public.te_leads'));await assert.rejects(sql.query("select public.te_rate('x',1,60)"));await sql.exec('reset role');}
     const row=(await sql.query("select public from storage.buckets where id='te-photos'")).rows[0];assert.equal(row.public,false);
   });
   await t.test('login creates opaque secure session and CSRF blocks writes',async()=>{
     const response=await request('login',{email:'admin@example.test',password:'test-password'});assert.equal(response.status,200);cookie=response.headers.get('set-cookie').split(';')[0];csrf=response.data.csrf;
     assert.match(response.headers.get('set-cookie'),/HttpOnly; Secure; SameSite=Strict/);assert.equal((await request('records',{records:[],revision:0},{'X-CSRF-Token':''})).status,403);
     assert.equal((await request('session')).status,200);assert.equal((await db.select('te_sessions'))[0].token_hash.length,64);assert.ok(!(await db.select('te_sessions'))[0].token_hash.includes(cookie.split('=')[1]));
+    await sql.exec("update te_sessions set expires_at=now()-interval '1 second'");assert.equal((await request('records')).status,401);
+    await sql.exec("update te_sessions set expires_at=now()+interval '1 hour'");
+    const denied=await createPlatform({env:{...env,ADMIN_USER_IDS:randomUUID()},db})(new Request(env.SITE_URL+'/api/platform/login',{method:'POST',headers:{Origin:env.SITE_URL,'Content-Type':'application/json'},body:JSON.stringify({email:'admin@example.test',password:'test-password'})}));assert.equal(denied.status,403);
   });
   let revision=0,photoKey;
   await t.test('upload persists optimized variants and private media denies anonymous access',async()=>{

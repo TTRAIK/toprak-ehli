@@ -1,12 +1,12 @@
 # Toprak Ehli
 
-Modüler arsa ve arazi sitesi. Yerel demo, iletişim bağlantıları, ayrı statik yayın paketi ve tek yönetici için yerel portföy paneli içerir. Gerçek müşteri talep backend'i henüz yoktur.
+Modüler arsa ve arazi sitesi. Yerel panel korunur; Vercel Function + Supabase tabanlı online panel, merkezi portföy, görsel ve talep backend kodu eklendi. Gerçek Supabase hesabı henüz bağlanmadığından online üretim teslimi tamamlanmış değildir. Güncel durum: [HANDOVER.md](HANDOVER.md); kurulum: [DEPLOYMENT.md](DEPLOYMENT.md); test kanıtı: [TEST_REPORT.md](TEST_REPORT.md).
 
 Yerel yönetim: önce `npm run admin:setup` ile kendi parolanızı oluşturun, sonra `npm run admin` ile `http://127.0.0.1:4180` adresini açın. Kullanım ve sınırlar: [docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md).
 
 ## Kullanım
 
-Node.js kurulu bilgisayarda `npm start`; adres `http://127.0.0.1:4175`. Windows'ta `ONIZLEMEYI_BASLAT.cmd` de kullanılabilir. Bağımlılık indirme gerekmez. ES modülleri için yerel sunucu gereklidir.
+Node.js 24 ile önce `npm ci`, ardından `npm start`; adres `http://127.0.0.1:4175`. Windows'ta `ONIZLEMEYI_BASLAT.cmd` de kullanılabilir. Statik site tarayıcıda framework bağımlılığı kullanmaz; yeni backend/test araçları için npm bağımlılıkları gerekir. ES modülleri için yerel sunucu gereklidir.
 
 Arama, sıralama, birleşik filtreler, üçlü karşılaştırma, kaynak/tarih/durum gösterimi, paylaşılabilir detay ve işletmenin iletişim bağlantıları çalışır. Demo ilanlar ve görseller gerçek parsel değildir.
 

@@ -1,15 +1,15 @@
 # Uygulama planı
 
 1. [x] Başlangıç denetimi, 18 testi yeniden çalıştırma.
-2. [ ] Çevrim içi veri modeli, doğrulama, draft/published/sold/archived durumları, merkezi revizyon ve transaction migration.
-3. [ ] Supabase Auth üzerinden giriş; sunucu oturumu, yönetici allowlist, kalıcı rate limit, CSRF/Origin/secure cookie.
-4. [ ] API: ortak portföy, yetkili kaydet/yayınla/yayından kaldır/arşiv, snapshot/restore/audit.
-5. [ ] Private Storage, decode/reencode edilmiş WebP varyantları, çoklu fotoğraf/kapak/sıra, referans kontrolü.
-6. [ ] Mevcut görsel kimliğiyle online panel; kirli form uyarısı, arama/filtre/sıralama, önizleme ve JSON export.
-7. [ ] Halka açık siteyi merkezi kaynağa bağlama, hata/yükleme/boş durumlar, detay galerisi, metadata.
-8. [ ] İşletme onaylı aydınlatma yapılandırmasına bağlı form ve yetkili talep ekranı.
-9. [ ] Mevcut testleri koruyarak yeni birim/API sözleşme testleri; erişim varsa gerçek Supabase entegrasyonu ve tarayıcı A–D.
-10. [ ] Preview build, doğrulama ve sekiz teslim belgesi. Supabase hesabı kurulmadan gerçek DB/Storage/E2E sonucu başarılı sayılmayacak.
+2. [x] Kod: veri modeli, doğrulama, durumlar, revizyon ve transaction migration; PGlite üzerinde test edildi.
+3. [x] Kod: Auth adaptörü, sunucu oturumu, allowlist, rate limit, CSRF/Origin/cookie. Gerçek Auth bağlantısı bekliyor.
+4. [x] API: merkezi portföy, kaydet/yayınla/kaldır/arşiv, snapshot/restore/audit.
+5. [x] Kod: private Storage adaptörü, gerçek Sharp decode/reencode, çoklu görsel/kapak/sıra/referans kontrolü. Gerçek bucket testi bekliyor.
+6. [x] Online panel; kirli form uyarısı, arama/filtre/sort, önizleme ve JSON export.
+7. [x] API senkronizasyonu, hata/yükleme/boş durum, galeri, metadata ve sitemap.
+8. [x] Yapılandırmaya bağlı form ve CRM; gerçek hukuki metin yokken kapalı.
+9. [ ] 33 test geçti; yalıtılmış tarayıcı yayın/medya/talep akışı geçti. Gerçek Supabase ve tam A–D cihaz/erişilebilirlik/ağ testleri bekliyor.
+10. [x] Preview build READY, korumalı HTTP kontrolü ve sekiz belge hazır. Gerçek production kabulü tamamlanmadı.
 
 ## Dış bağımlılıklar
 
