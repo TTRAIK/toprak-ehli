@@ -22,7 +22,7 @@ test('local HTTP routing, headers and file access boundaries', async t => {
     });
   }
   await t.test('HTML and module assets have correct MIME and nosniff', async () => {
-    for (const [path, type] of [['/', 'text/html'], ['/src/main.js', 'text/javascript'], ['/src/styles.css', 'text/css'], ['/src/assets/demo-1.webp', 'image/webp']]) {
+    for (const [path, type] of [['/', 'text/html'], ['/src/main.js', 'text/javascript'], ['/src/styles.css', 'text/css'], ['/src/assets/demo-1.webp', 'image/webp'], ['/src/assets/whatsapp.svg', 'image/svg+xml'], ['/src/assets/toprak-ehli-logo.jpg', 'image/jpeg']]) {
       const result = await send(path);
       assert.equal(result.status, 200);
       assert.ok(result.headers['content-type'].startsWith(type));

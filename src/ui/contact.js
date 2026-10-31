@@ -9,6 +9,13 @@ export function renderContact(container, property) {
     const link = element('a', label, 'button');
     link.href = href;
     if (href.startsWith('https:')) {
+      const icon = element('img');
+      icon.src = 'src/assets/whatsapp.svg';
+      icon.alt = '';
+      icon.width = 22;
+      icon.height = 22;
+      link.prepend(icon);
+      link.classList.add('whatsapp-link');
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
       link.setAttribute('aria-label', `${label} (yeni sekme)`);
@@ -16,4 +23,20 @@ export function renderContact(container, property) {
     links.append(link);
   }
   container.append(links, element('p', 'Mesaj uygulamanızda hazırlanır; göndermeden önce inceleyebilirsiniz. Bu sitede talep kaydı oluşturulmaz.', 'muted'));
+}
+
+export function renderWhatsAppShortcut() {
+  const [, href] = contactLinks()[1];
+  const link = element('a', undefined, 'whatsapp-float');
+  link.href = href;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.setAttribute('aria-label', 'WhatsApp üzerinden iletişime geç (yeni sekme)');
+  const icon = element('img');
+  icon.src = 'src/assets/whatsapp.svg';
+  icon.alt = '';
+  icon.width = 30;
+  icon.height = 30;
+  link.append(icon, element('span', 'WhatsApp'));
+  document.body.append(link);
 }

@@ -1,5 +1,14 @@
 # Teslim hazırlığı — 31 Ekim 2026
 
+## Logo ve WhatsApp devamı
+
+- Kullanıcının verdiği logo değiştirilmeden `src/assets/toprak-ehli-logo.jpg` olarak eklendi; başlıktaki metin markası yerine kullanıldı. Orijinal dosya korundu.
+- Yerel SVG WhatsApp ikonu iletişim ve ilan detayındaki bağlantılara eklendi. Sağ alttaki erişilebilir sabit bağlantı aynı işletme numarasına gider; yeni sekme açar, mesaj göndermez. Mobilde yalnız ikon görünür. Yazdırmada sabit düğme gizlenir.
+- Logo ve SVG MIME kontrolleri mevcut HTTP testine eklendi. Paketleme SVG'yi de içerir. Demo/yayın/kaynak ZIP'leri yenilendi.
+- Chrome tabanlı uygulama içi tarayıcıda masaüstü ve 390×844 mobil görünüm incelendi. Logo ve ikonlar yüklendi, yatay taşma yok; ilan detayındaki ikon doğrulandı. Console error/warn listesi boş. Dış mesaj gönderimi yapılmadı.
+- Ekran kanıtları: `screenshots/brand-whatsapp-desktop.jpg`, `screenshots/brand-whatsapp-mobile.jpg`. Değişen uygulama alanları: `index.html`, `src/ui/contact.js`, `src/main.js`, `src/styles.css`, iki yerel marka varlığı; sunucu, paketleme ve HTTP kontrolü güncellendi.
+- Geri dönüş noktası: `9641267`. Backend/yönetim ve yayın durumu aşağıdaki raporla aynı.
+
 ## Sonuç
 
 Müşteriye gösterilebilen dört örnek portföylü demo, gerçek iletişim bağlantıları, kaynak kod ve ayrı statik paketler hazırlandı. Domain ve gerçek fotoğraflar kullanıcı kararıyla sonra sağlanacak. Bu teslim altı fazın veya tam üretim sisteminin tamamlandığı iddiasını taşımaz.

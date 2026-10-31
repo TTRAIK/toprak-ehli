@@ -4,13 +4,14 @@ import { renderListings } from './ui/listings.js';
 import { createDetail } from './ui/detail.js';
 import { comparisonLimit, toggleComparison } from './domain/comparison.js';
 import { renderComparison } from './ui/comparison.js';
-import { renderContact } from './ui/contact.js';
+import { renderContact, renderWhatsAppShortcut } from './ui/contact.js';
 import { initializeSite } from './ui/site.js';
 import { site } from './data/site.js';
 
 const form = document.querySelector('#filters');
 initializeSite(properties);
 renderContact(document.querySelector('#contact-actions'));
+renderWhatsAppShortcut();
 const openDetail = createDetail(document.querySelector('#detail'));
 let selectedIds = [];
 let currentFilters = {};

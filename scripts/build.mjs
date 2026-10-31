@@ -16,7 +16,7 @@ async function copySource(relative) {
     const path = join(relative, entry.name);
     if (entry.isSymbolicLink()) throw new Error('Kaynakta sembolik bağlantı paketlenemez.');
     if (entry.isDirectory()) { await mkdir(join(output, path), { recursive: true }); await copySource(path); }
-    else if (/\.(js|css|webp|png|jpg)$/.test(entry.name)) await copyFile(join(root, path), join(output, path));
+    else if (/\.(js|css|webp|png|jpg|svg)$/.test(entry.name)) await copyFile(join(root, path), join(output, path));
   }
 }
 await mkdir(join(output, 'src'), { recursive: true });
