@@ -1,5 +1,7 @@
 # Online kurulum — 1 Kasım 2026
 
+Güncel: Yönetici hesabı oluşturuldu, gerçek kabul testleri geçti ve onaylı production yayını tamamlandı. Kullanıcı canlı panelde kendi parolasıyla giriş yaptı. Aşağıdaki kurulum günlüğündeki bekleyen maddelerin güncel karşılığı HANDOVER.md içindedir.
+
 Kullanıcı yalnız ücretsiz plan istedi. İki aktif ücretsiz proje sınırı nedeniyle yeni proje oluşturulmadı. Kullanıcının son talimatıyla daha önce açılmış `amlhvnzojwckvummqviz` projesi seçildi. Vercel'in eski entegrasyonundaki farklı Supabase projesine dokunulmadı.
 
 - Kurulum öncesi public şemasında tablo olmadığı SQL Editor ile doğrulandı.

@@ -27,4 +27,4 @@
 - E-posta bildirimi bağlı değil. Gerçek ilan/fotoğraf ve domain henüz sağlanmadı. noindex korunuyor.
 - Aynı ücretsiz proje, ilk devreye alma öncesi test hedefidir; üretime alındıktan sonra test kayıtları tekrar yayımlanmamalı. Gelecekte ayrı staging gerekir.
 
-Production'a geçişte test kaydı arşivli kalacak, liste boşsa iletişim odaklı görünüm açılacak. Bu davranış için hesap sahibinin onayı bekleniyor.
+Kullanıcı production'a geçişi onayladı. dpl_7AVzQPiinKGzyzMf91bLVct55CHK READY; mevcut alias güncellendi. Production site/admin/public API 200, oturumsuz özel API 401, özel dosyalar 404. Kullanıcı kendi parolasıyla production paneline girerek gerçek oturumu doğruladı. Test kaydı arşivli, public kayıt sayısı 0; form kapalı ve noindex etkin. Preview/Production APP_SECRET farklı. Ücretli işlem yok.
