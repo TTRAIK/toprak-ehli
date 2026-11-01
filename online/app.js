@@ -48,7 +48,7 @@ async function changeState(record,state){if(!await ask(`${record.title || record
 async function edit(record=null){
   if(dirty && !await ask('Kaydedilmemiş değişiklikler var. Vazgeçilsin mi?'))return;
   editing=record?.id || null;editingRevision=revision;form.reset();photos=structuredClone(record?.photos || []);
-  for(const control of form.elements){if(!control.name)continue;if(control.name==='publicationApproved')control.checked=Boolean(record?.publicationApproved);else control.value=record?.[control.name] ?? ({id:crypto.randomUUID(),status:'draft',category:'land',type:'Müstakil'}[control.name] || '');}
+  for(const control of form.elements){if(!control.name)continue;if(control.type==='checkbox')control.checked=Boolean(record?.[control.name]);else control.value=record?.[control.name] ?? ({id:crypto.randomUUID(),status:'draft',category:'land',type:'Müstakil'}[control.name] || '');}
   form.elements.id.readOnly=Boolean(editing);
   $('#evidence').replaceChildren();
   for(const [key,label] of facts){const field=node('fieldset'),grid=node('div',null,'grid');field.append(node('legend',label));
@@ -56,7 +56,7 @@ async function edit(record=null){
   renderPhotos();dirty=false;$('#editor-title').textContent=editing?'Portföyü düzenle':'Yeni portföy';$('#editor').hidden=false;$('#editor').scrollIntoView();form.elements.title.focus({preventScroll:true});status('');
 }
 function collect(){
-  const values=Object.fromEntries(new FormData(form)),record={id:values.id.trim(),region:values.region.trim(),local:values.local.trim(),type:values.type,price:values.price===''?null:Number(values.price),area:values.area===''?null:Number(values.area),isDemo:false,publicationApproved:form.elements.publicationApproved.checked,currency:'TRY',category:values.category,status:values.status,photos:structuredClone(photos),evidence:{}};
+  const values=Object.fromEntries(new FormData(form)),record={id:values.id.trim(),region:values.region.trim(),local:values.local.trim(),type:values.type,price:values.price===''?null:Number(values.price),area:values.area===''?null:Number(values.area),isDemo:false,publicationApproved:form.elements.publicationApproved.checked,currency:'TRY',category:values.category,status:values.status,photos:structuredClone(photos),featured:form.elements.featured.checked,featuredOrder:values.featuredOrder===''?50:Number(values.featuredOrder),evidence:{}};
   for(const key of ['title','description','city','district','neighborhood','parcel','zoning','road','utilities'])if(values[key]?.trim())record[key]=values[key].trim();
   for(const [key] of facts)record.evidence[key]={status:values[`evidence-${key}-status`],source:values[`evidence-${key}-source`]?.trim() || null,checkedAt:values[`evidence-${key}-checkedAt`] || null};
   return record;

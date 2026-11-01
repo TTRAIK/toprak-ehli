@@ -1,6 +1,7 @@
 // Original vanilla JS implementation inspired by Kedhareswer Naidu's MIT polaroid concept.
 // No React migration, third-party runtime, tracking, autoplay or paid API.
 import { element } from './listings.js';
+import { featuredProperties } from '../domain/featured.js';
 
 export function initializePolaroids(host,initialRecords,onDetail) {
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -37,13 +38,14 @@ export function initializePolaroids(host,initialRecords,onDetail) {
   track.addEventListener('click',event=>{if(dragged){event.preventDefault();event.stopPropagation();dragged=false;}},true);
   window.addEventListener('resize',update,{passive:true});
   function render(records){
-    current=records.filter(record=>record.image).slice(0,8);
+    current=featuredProperties(records);
     const editorial=!current.length;
     if(editorial)current=['Ufkun çizgisi','Toprağın dokusu','Yolun izinde','Günün son ışığı'].map((title,index)=>({title,image:'src/assets/landscape-hero.webp',imageAlt:'Yapay zekâyla üretilmiş temsili manzaranın farklı kadrajı; gerçek parsel değildir.',editorial:true,index}));
-    note.textContent=editorial?'TEMSİLİ MANZARA SERİSİ · Yapay zekâyla üretilmiştir. Gerçek parsel değildir.':current.some(record=>record.isDemo)?'TEMSİLİ PORTFÖYLER · Gerçek satış ilanı değildir.':'PORTFÖYDEN KARELER · Fotoğrafa dokunarak inceleyin.';
+    note.textContent=editorial?'TEMSİLİ MANZARA SERİSİ · Kartlara dokunarak portföy alanına geçin. Gerçek parsel değildir.':current.some(record=>record.isDemo)?'TEMSİLİ PORTFÖYLER · Gerçek satış ilanı değildir.':'ÖNE ÇIKAN PORTFÖYLER · Fotoğrafa dokunarak inceleyin.';
     cards=current.map((record,index)=>{
       const card=element('figure',undefined,`polaroid-card polaroid-${index%4}`);card.style.setProperty('--tilt',`${[-7,4,-4,7][index%4]}deg`);
-      const surface=element(record.editorial?'div':'button',undefined,'polaroid-paper');
+      const surface=element(record.editorial?'a':'button',undefined,'polaroid-paper');
+      if(record.editorial){surface.href='#portfoy';surface.setAttribute('aria-label',`${record.title}: portföyleri keşfet`);}
       if(!record.editorial){surface.type='button';surface.setAttribute('aria-label',`${record.title || record.local} portföyünü incele`);surface.addEventListener('click',()=>onDetail(record,surface));}
       const image=element('img');image.src=record.image;image.alt=record.imageAlt || (record.isDemo?'Temsili portföy görseli':record.title || record.local);image.loading='lazy';image.decoding='async';image.width=400;image.height=400;image.draggable=false;
       const photo=element('div',undefined,'polaroid-photo');photo.append(image);
