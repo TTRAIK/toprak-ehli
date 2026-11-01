@@ -1,4 +1,5 @@
 import { initializePolaroids } from './ui/polaroids.js';
+import { renderPortfolioPreview } from './ui/portfolio-preview.js';
 import { properties as bundledProperties } from './data/properties.js';
 import { fetchPortfolio } from './data/remote.js';
 import { initializeInquiry } from './ui/inquiry.js';
@@ -44,8 +45,9 @@ function render() {
   const matches = discoverProperties(source, currentFilters);
   renderListings(document.querySelector('#listings'), matches, openDetail,
     { ids: selectedIds, limit: comparisonLimit, onToggle: toggle });
-  if (!site.preview && !properties.length) document.querySelector('.empty p').textContent = 'Portföylerimizi güncelliyoruz. Size uygun arsa ve arazi seçenekleri için bize ulaşın.';
+  if (!site.preview && !properties.length && !loadError) renderPortfolioPreview(document.querySelector('#listings'));
   document.querySelector('#results').textContent = `${matches.length} ${site.preview ? 'temsili ' : ''}portföy gösteriliyor.${assistantSelection?' Asistan seçimi; tümünü görmek için filtreleri sıfırlayın.':''}`;
+  if(!site.preview && !properties.length && !loadError)document.querySelector('#results').textContent='Henüz yayında portföy yok. Aşağıdaki kartlar yalnız görünüm örneğidir; satış ilanı değildir.';
   document.querySelector('#comparison-status').textContent = `${selectedIds.length} / ${comparisonLimit} portföy seçildi. ${selectedIds.length === comparisonLimit ? 'Yeni seçim için bir portföyü kaldırın.' : 'Seçimler filtre değiştiğinde korunur.'}`;
   renderComparison(document.querySelector('#comparison'), properties.filter(property => selectedIds.includes(property.id)), id => toggle(id, true));
   document.querySelector('#clear-comparison').disabled = !selectedIds.length;
