@@ -21,4 +21,4 @@ Görsel yenileme: yeşil/altın tasarım, temsili AI açılış görseli, hareke
 
 Kullanım, içerik şeması, yayın adımları ve kalan kapsam: [TESLIM_NOTLARI.md](TESLIM_NOTLARI.md). Son test raporu: [docs/DELIVERY_REPORT.md](docs/DELIVERY_REPORT.md). Altı fazın durumu: [docs/ROADMAP.md](docs/ROADMAP.md).
 
-Özgün referans `reference/toprak_ehli_demo.html` korunur. SHA-256: `1e4a331a8e8b20bb44ba9d488a67f49a6139e60a5b173ae15a412eb88f742691`. Git kayıtları yereldir; yayın yapılmamıştır.
+Özgün referans `reference/toprak_ehli_demo.html` korunur. SHA-256: `1e4a331a8e8b20bb44ba9d488a67f49a6139e60a5b173ae15a412eb88f742691`. Kaynak kod ve Git geçmişi özel [TTRAIK/toprak-ehli](https://github.com/TTRAIK/toprak-ehli) deposundadır. Güncel teslim sınırları HANDOVER.md içindedir.
