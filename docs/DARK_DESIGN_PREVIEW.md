@@ -14,3 +14,7 @@ Arsa listeleme, arama, filtre, karşılaştırma ve detay işlevleri korundu. 49
 Canlı site değiştirilmedi. Önceki production deployment dpl_7AVzQPiinKGzyzMf91bLVct55CHK, adres https://toprak-ehli-demo-e7rhad3x7-ehli.vercel.app .
 
 Kaynak geri dönüş etiketi: before-dark-polaroid-2026-11-01 (fd19386). Eski dal codex/production-platform, tasarım dalı codex/dark-polaroid. Tasarım kaydedildikten sonra eski dala git switch ile dönülebilir; hard reset veya dosya silme gerekmez. Veritabanı, panel veya müşteri verisi değiştirilmedi. Bu turda GitHub'a push yapılmadı.
+
+## Canlıya geçiş
+
+Kullanıcı onayıyla dpl_DPdRt7ePJbYQM3uSbsUQUWXMUfev READY olarak https://toprak-ehli-demo.vercel.app adresine alındı. Yukarıdaki önizleme notları önceki kontrol aşamasını anlatır. Önceki üretim deployment ve kaynak etiketi geri dönüş için korunuyor. 49 test geçti. Ücretli işlem ve GitHub push yok.

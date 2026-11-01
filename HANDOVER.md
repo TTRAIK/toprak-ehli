@@ -4,7 +4,7 @@ Site: https://toprak-ehli-demo.vercel.app/
 Yönetim: https://toprak-ehli-demo.vercel.app/admin/
 Kaynak: https://github.com/TTRAIK/toprak-ehli (private)
 
-Kullanıcı onayıyla online sürüm production'a alındı. Deployment dpl_7AVzQPiinKGzyzMf91bLVct55CHK READY. Kullanıcı kendi Auth e-posta/parolasıyla production paneline girdi; dashboard ve kalıcı veriler görüldü. Varsayılan parola yoktur. Ücretli plan/domain/servis alınmadı; ücret gerektiren sonraki adımlar kullanıcı talimatıyla iptal edilecek.
+Kullanıcı onayıyla online sürüm production'a alındı. Deployment dpl_DPdRt7ePJbYQM3uSbsUQUWXMUfev READY. Kullanıcı kendi Auth e-posta/parolasıyla production paneline girdi; dashboard ve kalıcı veriler görüldü. Varsayılan parola yoktur. Ücretli plan/domain/servis alınmadı; ücret gerektiren sonraki adımlar kullanıcı talimatıyla iptal edilecek.
 
 ## Doğrulanan kapsam
 
@@ -16,10 +16,14 @@ Gerçek Supabase Auth/PostgreSQL/private Storage; taslak/yayın/satıldı/arşiv
 
 ## Kalan dış bağımlılıklar ve sınırlar
 
-- Gerçek ilanlar, izinli fotoğraflar ve özel domain sağlanmadı. Mevcut Vercel adresi kullanılabilir; boş liste iletişim yönlendirmesi gösterir.
+- Gerçek ilanlar, izinli fotoğraflar ve özel domain sağlanmadı. Mevcut Vercel adresi kullanılabilir; gerçek ilan yokken açıkça örnek işaretli kartlar gösterilir.
 - İşletme onaylı aydınlatma yok; kişisel veri formu kapalı. WhatsApp/telefon/e-posta açık. CRM kodu ve fixture testleri var; gerçek kişisel veri form/CRM kabulü yapılmadı.
 - E-posta bildirimi/SMTP bağlı değil.
 - Uygulama yedeği Auth parola hash'leri, PostgreSQL şeması ve yönetilen tam DB kurtarması değildir. Ayrı gerçek Supabase projesinde tam felaket kurtarma testi bekliyor.
 - Bağımsız güvenlik denetimi, tam erişilebilirlik/cihaz/yük testleri ve otomatik operasyon izleme tamamlanmadı.
 
 Online portföy yönetimi kullanıma açıldı. İlk kapsam belgesindeki bütün maddelerin sınırsız üretim kabulü tamamlandı iddiası yoktur. Ayrıntı: docs/REAL_ACCEPTANCE_2026-11-01.md.
+
+## Portföy tasarımı güncellemesi
+
+Kullanıcı onayıyla koyu/polaroid tasarım ve görünür arsa kartları canlıya alındı. Site/admin 200; public API 0 kayıt, revizyon 5; oturumsuz özel API 401. Canlı tarayıcıda 3 örnek kart ve detay aç/kapat doğrulandı. Veritabanına örnek ilan eklenmedi. Önceki açık tasarımın geri dönüş etiketi korunuyor. Bu tasarım turlarında kullanıcı isteğiyle GitHub push yapılmadı.

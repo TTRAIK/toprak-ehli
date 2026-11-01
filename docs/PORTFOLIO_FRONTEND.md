@@ -10,3 +10,7 @@ Gerçek yayınlanmış kayıt geldiğinde mevcut gerçek ilan renderer'ı kullan
 İlan girişi canlı /admin/ içindeki Yeni portföy ekranından yapılır. Bu gerçek Supabase Auth/PostgreSQL/private Storage sistemidir; yeni backend yazılmadı veya müşteri verisi değiştirilmedi.
 
 49 otomatik test, syntax ve lint geçti. Gerçek Vercel önizlemesinde boş veriyle üç kart görüldü, örnek detay açıldı/kapandı; 390 px mobilde yatay taşma ve console error yok. Eski üretim ve geri dönüş etiketi korunuyor. Bu turda GitHub push yapılmadı.
+
+## Canlıya geçiş
+
+Kullanıcı onayıyla dpl_DPdRt7ePJbYQM3uSbsUQUWXMUfev READY olarak https://toprak-ehli-demo.vercel.app adresine alındı. Yukarıdaki önizleme notları önceki kontrol aşamasını anlatır. Önceki üretim deployment ve kaynak etiketi geri dönüş için korunuyor. 49 test geçti. Ücretli işlem ve GitHub push yok.
