@@ -6,7 +6,7 @@ export function propertyHtml(template,record,origin) {
   const description=(record.description || `${record.region}, ${record.local}. Güncel portföy bilgileri ve iletişim.`).slice(0,180);
   const url=`${origin}/ilan/${encodeURIComponent(record.id)}`;
   const schema={'@context':'https://schema.org','@type':'RealEstateListing',name:record.title || record.local,description,url,dateModified:record.updatedAt};
-  const image=record.photos[0]?`${origin}/api/platform/media/${record.photos[0].key}?size=960`:null;
+  const image=record.photos[0]?`${origin}/api/platform/photo?key=${record.photos[0].key}&size=960`:null;
   if(image)schema.image=image;
   return template.replace(/<title>.*?<\/title>/s,`<title>${escapeHtml(title)}</title>`)
     .replace(/<meta name="description"[^>]*>/,`<meta name="description" content="${escapeHtml(description)}">`)

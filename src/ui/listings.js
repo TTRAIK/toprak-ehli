@@ -26,7 +26,7 @@ export function renderListings(container, properties, onDetail, comparison) {
       if (property.isDemo) illustration.classList.add('demo-art');
       const image = element('img');
       image.src = property.image;
-      if(property.photos?.length)image.srcset=[480,960,1600].map(size=>`/api/platform/media/${property.photos[0].key}?size=${size} ${size}w`).join(',');
+      if(property.photos?.length)image.srcset=[480,960,1600].map(size=>`/api/platform/photo?key=${property.photos[0].key}&size=${size} ${size}w`).join(',');
       image.sizes='(max-width: 480px) 100vw, 50vw';
       image.alt = property.isDemo ? 'Temsili arazi görseli; bu kayıt veya konumun gerçek fotoğrafı değildir.' : property.imageAlt;
       image.loading = 'lazy';

@@ -1,5 +1,11 @@
 # Kurulum ve yayın rehberi
 
+## 1 Kasım 2026 güncellemesi
+
+Ücretsiz mevcut Supabase projesi kullanıcı onayıyla bağlandı; gerçek kabul sonuçları `docs/REAL_ACCEPTANCE_2026-11-01.md` içindedir. Vercel'de `TOPRAK_SUPABASE_URL`, `TOPRAK_SUPABASE_ANON_KEY`, `TOPRAK_SUPABASE_SERVICE_KEY` kullanılarak eski Marketplace entegrasyonu korunur. Modern anahtarlar yalnız apikey başlığına gider; legacy JWT de desteklenir. Yönetici kendi Auth hesabını oluşturdu.
+
+`npm run backup -- .private/ayarlar.env` uygulama tablolarını ve ready fotoğraf varyantlarını şifreli `.tebackup` dosyasına alır, anahtarını ayrı `.key` dosyasına yazar ve okuyup hash kontrolü yapar. İkisi Git dışında `.private/backups` altındadır. Anahtarı arşivden ayrı güvenli yere taşıyın. Bu komut hiçbir uzak kaydı geri yüklemez/değiştirmez; tam yönetilen DB/Auth yedeğinin yerine geçmez.
+
 ## 1. Supabase: kullanıcı hesabında proje
 
 https://supabase.com/dashboard üzerinden ücretsiz proje oluşturun. Hesap/sözleşme adımlarını hesap sahibi tamamlar. Veritabanı parolasını burada veya Git'te paylaşmayın. Önce staging için ayrı proje kullanın; üretim veritabanını test hedefi yapmayın.

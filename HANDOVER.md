@@ -1,6 +1,6 @@
 # Teslimat durumu
 
-**Karar: Tam üretim teslimine hazır olduğu henüz söylenemez.** Kod, migration ve yalıtılmış testler hazır; gerçek Supabase hesabı ve üretim kabul testleri eksik.
+**1 Kasım 2026 durumu:** Supabase bağlantısı, gerçek yönetici girişi ve portföy/fotoğraf/yayın/güncelleme/restore/arşiv akışı gerçek Vercel Preview üzerinde doğrulandı. 49 test geçti. Production'a geçiş onayı ve işletme içerikleri bekleniyor. Aşağıdaki başlangıç listesi önceki durumun kaydıdır; güncel kanıt `docs/REAL_ACCEPTANCE_2026-11-01.md` içindedir.
 
 ## Tamamlanan kod
 

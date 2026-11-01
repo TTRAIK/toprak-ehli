@@ -77,8 +77,8 @@ test('PostgreSQL migration and API integration (PGlite; Auth/Storage transport s
   await t.test('draft save persists but stays private; publish is immediately public',async()=>{
     const draft={...record(),photos:[{key:photoKey,alt:'Test image'}]};let result=await request('records',{records:[draft],revision});assert.equal(result.status,200);revision=result.data.revision;assert.equal((await request('public')).data.records.length,0);
     result=await request('records',{records:[{...draft,status:'published',publicationApproved:true}],revision});assert.equal(result.status,200);revision=result.data.revision;
-    const publicData=(await request('public')).data;assert.equal(publicData.records.length,1);assert.ok(publicData.records[0].publishedAt);assert.match(publicData.records[0].image,/media\//);
-    assert.equal((await request('media/'+photoKey,undefined,{Cookie:''})).status,200);
+    const publicData=(await request('public')).data;assert.equal(publicData.records.length,1);assert.ok(publicData.records[0].publishedAt);assert.match(publicData.records[0].image,/photo\?key=/);
+    assert.equal((await request('photo?key='+photoKey,undefined,{Cookie:''})).status,200);
     const detail=await handle(new Request(env.SITE_URL+'/ilan/listing-1'));assert.equal(detail.status,200);assert.ok((await detail.text()).includes('rel="canonical"'));
     const map=await handle(new Request(env.SITE_URL+'/sitemap.xml'));assert.equal(map.status,200);assert.ok((await map.text()).includes('/ilan/listing-1'));
   });

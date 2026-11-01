@@ -66,8 +66,8 @@ export function createPlatform({env=process.env,db:injected,readTemplate=()=>rea
         await db.insert('te_leads',{name:data.name,contact:data.contact,message:data.message,property_id:data.propertyId,privacy_version:config.privacyVersion});
         return json({ok:true},201);
       }
-      if(path.startsWith('media/') && !write) {
-        const key=path.slice(6);if(!/^[a-f0-9-]{36}$/.test(key))throw new HttpError(404,'Fotoğraf bulunamadı.');
+      if((path==='photo' || path.startsWith('media/')) && !write) {
+        const key=path==='photo'?url.searchParams.get('key'):path.slice(6);if(!/^[a-f0-9-]{36}$/.test(key || ''))throw new HttpError(404,'Fotoğraf bulunamadı.');
         const state=await loadState(db);
         if(!state.records.some(record=>publicRecord(record) && record.photos.some(photo=>photo.key===key)))await authenticate(request,db,config);
         const media=await db.select('te_media',`id=eq.${key}&state=eq.ready&select=id`);if(!media.length)throw new HttpError(404,'Fotoğraf bulunamadı.');

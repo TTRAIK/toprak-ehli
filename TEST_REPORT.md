@@ -1,5 +1,9 @@
 # Gerçek test sonuçları — 31 Ekim 2026
 
+## Güncel sonuç — 1 Kasım 2026
+
+49 test geçti; syntax ve lint geçti. Gerçek Supabase Auth/Storage/PostgreSQL ile panelde yayınlama, güncelleme, fotoğraf ve snapshot restore doğrulandı; test kaydı arşivlendi. Şifreli uygulama yedeği ve ayrı SQL fixture'ına geri alma testi eklendi. Ayrıntılar `docs/REAL_ACCEPTANCE_2026-11-01.md` içindedir. Aşağıdaki sonuçlar ilk sürümün tarihsel kontrolüdür.
+
 ## Otomatik
 
 - `npm test`: **33 geçti, 0 başarısız, 0 atlanan**. Önceki 18 test korundu.

@@ -38,7 +38,7 @@ export function publicRecord(record) {
   if (!['published','sold'].includes(record.status) || !record.publicationApproved || record.isDemo !== false) return null;
   const { publicationApproved, ...result } = record;
   const first = record.photos[0];
-  return { ...result, ...(first ? { image: `/api/platform/media/${first.key}?size=960`, imageAlt: first.alt } : {}) };
+  return { ...result, ...(first ? { image: `/api/platform/photo?key=${first.key}&size=960`, imageAlt: first.alt } : {}) };
 }
 export function validateLead(input) {
   if (!input || typeof input !== 'object' || input.website) throw new HttpError(400, 'Talep gönderilemedi.');

@@ -30,7 +30,7 @@ export function createDetail(dialog) {
     if(property.photos?.length || property.description){
       const gallery=element('div',undefined,'online-gallery');
       if(property.description)gallery.append(element('p',property.description));
-      for(const photo of property.photos || []){const image=element('img');image.src=`/api/platform/media/${photo.key}?size=960`;image.alt=photo.alt;image.loading='lazy';image.width=960;image.height=640;gallery.append(image);}
+      for(const photo of property.photos || []){const image=element('img');image.src=`/api/platform/photo?key=${photo.key}&size=960`;image.alt=photo.alt;image.loading='lazy';image.width=960;image.height=640;gallery.append(image);}
       dialog.querySelector('#detail-location').after(gallery);
     }
     dialog.querySelector('#detail-location').textContent = property.region;
