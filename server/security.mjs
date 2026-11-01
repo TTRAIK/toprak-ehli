@@ -4,7 +4,7 @@ export const digest = value => createHash('sha256').update(value).digest('hex');
 export const csrfFor = (token,secret) => createHmac('sha256',secret).update(`csrf:${token}`).digest('hex');
 export function originGuard(request,config) {
   const expected = new URL(request.url).origin;
-  const allowed = expected === config.origin || (config.preview && expected.endsWith('.vercel.app'));
+  const allowed = expected === config.origin || (config.preview && expected === config.previewOrigin);
   if (!allowed || request.headers.get('origin') !== expected || request.headers.get('sec-fetch-site') === 'cross-site') throw new HttpError(403,'İstek kaynağı reddedildi.');
 }
 export function sessionToken(request) {
@@ -23,7 +23,7 @@ export async function authenticate(request,db,config,write=false) {
     originGuard(request,config);
     const actual=request.headers.get('x-csrf-token') || '';
     const expected=csrfFor(token,config.secret);
-    if(actual.length!==expected.length || !timingSafeEqual(Buffer.from(actual),Buffer.from(expected))) throw new HttpError(403,'Güvenlik kontrolü başarısız. Sayfayı yenileyin.');
+    if(!/^[a-f0-9]{64}$/.test(actual) || !timingSafeEqual(Buffer.from(actual),Buffer.from(expected))) throw new HttpError(403,'Güvenlik kontrolü başarısız. Sayfayı yenileyin.');
   }
   return {user:session.user_id,token,csrf:csrfFor(token,config.secret)};
 }

@@ -48,7 +48,14 @@ export function renderListings(container, properties, onDetail, comparison) {
     button.setAttribute('aria-label', `${property.local}${property.isDemo ? ' örnek' : ''} portföy detayını incele`);
     button.dataset.id = property.id;
     button.addEventListener('click', () => onDetail(property, button));
+    article.classList.add('listing-interactive');
+    article.addEventListener('click',event=>{
+      if(event.target.closest('a,button,input,label,select,textarea,details,summary'))return;
+      if(window.getSelection()?.toString())return;
+      onDetail(property,button);
+    });
     article.append(button);
+    const page=element('a','Ayrı detay sayfasını aç ↗','detail-button');page.href='/ilan/'+encodeURIComponent(property.id);article.append(page);
     const label = element('label', undefined, 'compare-choice');
     const checkbox = element('input');
     checkbox.type = 'checkbox';

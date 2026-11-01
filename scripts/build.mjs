@@ -3,6 +3,7 @@ import { resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateListings } from './content.mjs';
 import { properties as demoProperties } from '../src/data/properties.js';
+import {detailPage} from './detail-pages.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const preview = process.argv.includes('--demo');
@@ -31,6 +32,7 @@ if (!preview) html = html.replace('Geliştirme önizlemesi · Tüm portföyler t
   .replace('Yerel geliştirme · Temsili içerik', 'Arsa & Arazi · Trakya')
   .replace('Bu önizleme yatırım tavsiyesi içermez.', 'İçerikler yatırım tavsiyesi değildir.');
 await writeFile(join(output, 'index.html'), html);
+for(const record of records){const folder=join(output,'ilan',record.id);await mkdir(folder,{recursive:true});await writeFile(join(folder,'index.html'),detailPage(record));}
 await writeFile(join(output, 'robots.txt'), 'User-agent: *\nDisallow: /\n');
 await writeFile(join(output, '404.html'), '<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sayfa bulunamadı | Toprak Ehli</title><main><h1>Sayfa bulunamadı</h1><p>Bağlantı değişmiş olabilir.</p><a href="/">Ana sayfaya dön</a></main></html>');
 await writeFile(join(output, '_headers'), '/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n  Content-Security-Policy: default-src \'self\'; script-src \'self\'; style-src \'self\'; img-src \'self\' data:; object-src \'none\'; base-uri \'self\'; frame-ancestors \'none\'; form-action \'none\'\n');

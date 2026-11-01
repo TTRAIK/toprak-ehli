@@ -26,3 +26,31 @@
 @media(max-width:480px){nav{gap:12px;font-size:11px}.hero-inner{min-height:820px;padding-top:36px}h1{font-size:49px;line-height:1.08}.hero .eyebrow{font-size:9px;letter-spacing:.1em}.hero-description{font-size:14px}.hero-actions{gap:20px}.hero .button{font-size:12px}.hero-image{height:275px;bottom:76px;border-top-left-radius:75px}.hero-bottom{padding-bottom:18px}.caption{max-width:260px}.hero-secondary{font-size:12px}.filters{padding:20px;gap:16px 12px}.filters label{font-size:11px}.filters input,.filters select{font-size:12px}.filter-actions .button{font-size:12px}.listing{padding-inline:23px}.listing-art{margin-inline:-23px;height:240px}.listing h3{font-size:33px}.compare-choice{position:absolute;right:22px;bottom:23px;font-size:12px}.approach{margin-inline:10px}.approach h2{font-size:36px}.principles p{font-size:14px}.comparison h2{font-size:27px}.contact-panel h3{font-size:27px}.contact-links .button{font-size:11px;padding:13px}.contact-intro{font-size:14px}footer span{font-size:11px}}
 @media print{.hero,.approach{display:none}.comparison{padding:0;border:0;background:white}}
 .inquiry-section{padding-bottom:80px}.inquiry-section[hidden]{display:none}.inquiry-form{max-width:680px;padding:30px;background:#f0f3ea;border-radius:18px;display:grid;gap:20px}.inquiry-form label{font-size:13px}.inquiry-form input,.inquiry-form select,.inquiry-form textarea{display:block;width:100%;padding:13px;margin-top:8px;border:1px solid #ccd8cd;border-radius:8px;background:white;color:var(--ink);font:inherit}.inquiry-form .check{display:flex;gap:12px;align-items:start;line-height:1.6}.inquiry-form .check input{width:18px;height:18px;margin-top:2px;flex:none}.inquiry-form .button{justify-self:start}.inquiry-form details p{white-space:pre-line;font-size:13px;line-height:1.8}.online-gallery img{width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:12px;margin:12px 0}.online-gallery p{white-space:pre-line;line-height:1.7}
+/* Compact property facts and restrained interaction polish. */
+#detail{width:min(820px,calc(100% - 28px));padding:28px;scrollbar-width:thin;scrollbar-color:#9cab97 transparent}
+#detail .dialog-head{position:sticky;top:-28px;z-index:3;background:var(--paper);padding:12px 0;border-bottom:1px solid var(--line)}
+#detail h2{font-size:clamp(28px,5vw,40px)}
+#detail-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:24px 0}
+#detail-facts .detail-fact-card{padding:16px 18px;border:1px solid #dfe5db;border-radius:14px;background:#fffefb;min-width:0}
+#detail-facts dt,#detail-facts dd{display:block;border:0;padding:0;margin:0;overflow-wrap:anywhere}
+#detail-facts dt{font-size:12px;color:#617166;margin-bottom:8px}
+#detail-facts .fact-value{font-size:17px;font-weight:600;color:#173f34;line-height:1.5}
+#detail-facts .fact-status{display:inline-block;font-size:11px;background:#edf1e7;color:#52634d;border-radius:20px;padding:4px 9px;margin-top:8px}
+.fact-evidence{margin-top:8px}.fact-evidence summary{font-size:11px;cursor:pointer;color:#65755c}.fact-evidence small{display:block;line-height:1.7;font-size:11px;margin-top:4px}
+.listing-interactive{cursor:pointer;isolation:isolate}.listing-interactive:focus-within{outline:2px solid #b59a60;outline-offset:4px}.listing-interactive:active{box-shadow:0 4px 14px #173b3015}
+.principles p{border-radius:0 0 12px 12px;padding:22px 12px 12px;margin-inline:-12px}
+@media(prefers-reduced-motion:no-preference){
+ .motion-ready .reveal{transition:opacity .7s ease var(--reveal-delay,0ms),transform .8s cubic-bezier(.2,.75,.2,1) var(--reveal-delay,0ms)}
+ .listing-interactive{transition:border-color .25s ease,box-shadow .3s ease,transform .3s ease}
+ .listing-interactive:hover{border-color:#b8c7aa;transform:translateY(-6px);box-shadow:0 18px 42px #173b3014}
+ .listing-interactive .listing-art img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+ .listing-interactive:hover .listing-art img{transform:scale(1.035)}
+ .listing-interactive:active{transform:translateY(-1px) scale(.995)}
+ .approach.is-visible:after{animation:approach-orbit 1.6s cubic-bezier(.2,.7,.2,1) both}
+ .principles p{transition:background .3s ease,transform .3s ease}.principles p:hover{background:#ffffff07;transform:translateY(-3px)}
+ #detail[open]{animation:detail-arrive .32s cubic-bezier(.2,.75,.2,1) both}
+ @keyframes approach-orbit{from{opacity:0;transform:translateX(30px) scale(.92)}to{opacity:1;transform:none}}
+ @keyframes detail-arrive{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+}
+@media(max-width:540px){#detail{padding:18px;width:calc(100% - 20px);max-height:88dvh}#detail .dialog-head{top:-18px}#detail-facts{gap:8px}#detail-facts .detail-fact-card{padding:13px 12px}#detail-facts .fact-value{font-size:15px}.principles p{padding-inline:12px}.listing-interactive .detail-button{min-height:44px;display:inline-flex;align-items:center;margin-right:12px}}
+@media(max-width:350px){#detail-facts{grid-template-columns:1fr}}

@@ -1,7 +1,12 @@
 import { createPlatform } from '../../server/platform.mjs';
+import {notFoundPage} from '../../scripts/detail-pages.mjs';
 const handle=createPlatform();
 // Node bridge keeps the API testable with standard Request/Response outside Vercel.
 export default async function handler(req,res) {
+  const path=new URL(req.url,'https://localhost').pathname;
+  if(process.env.TOPRAK_DEPLOY_MODE!=='online' && ['GET','HEAD'].includes(req.method) && (path.startsWith('/ilan/') || path==='/api/platform/property')){
+    res.statusCode=404;res.setHeader('Content-Type','text/html; charset=utf-8');res.setHeader('X-Robots-Tag','noindex, nofollow');res.end(req.method==='HEAD'?undefined:notFoundPage());return;
+  }
   const origin=`https://${req.headers.host}`;
   const headers=new Headers();
   for(const [key,value] of Object.entries(req.headers))if(value!=null)headers.set(key,Array.isArray(value)?value.join(','):value);

@@ -73,7 +73,7 @@ export function createAdminServer(root, credentials, { maxAttempts = 5, sessionM
           const {records}=await store.read();response.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8'});response.end(`export const properties = ${JSON.stringify(records)};`);return;
         }
         if(path==='/preview/src/data/site.js'){
-          response.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8'});response.end('export const site = { preview: false };');return;
+          response.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8'});response.end('export const site = { preview: false, localManaged: true };');return;
         }
         request.url=request.url.replace(/^\/preview/,'');
         previewServer.emit('request',request,response);return;

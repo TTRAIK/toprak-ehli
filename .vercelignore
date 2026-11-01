@@ -8,6 +8,7 @@
 /scripts/*
 !/scripts/build.mjs
 !/scripts/content.mjs
+!/scripts/detail-pages.mjs
 !/scripts/vercel-build.mjs
 !/content
 /content/*

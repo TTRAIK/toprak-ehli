@@ -8,7 +8,11 @@ export function initializeSite(properties) {
     option.textContent = region;
     select.append(option);
   }
-  if (site.preview) return;
+  if (site.preview) {
+    const note=document.createElement('p');note.className='muted';note.textContent='Demo inceleme ortamı: iletişim bilgilerinin firma sahipliği henüz doğrulanmadı. Ticari yayından önce onay gerekir.';
+    document.querySelector('#contact-actions')?.after(note);
+    return;
+  }
   document.querySelector('.notice').textContent = 'Toprak Ehli · Arsa ve arazi';
   document.querySelector('.hero .button').textContent = 'Portföyleri incele ↗';
   document.querySelector('#portfolio-note').textContent = properties.length ? 'Kaynakları ve eksik bilgileri her kayıtta inceleyin.' : 'Güncel portföy bilgisi için bizimle iletişime geçin.';

@@ -5,9 +5,10 @@ export function configuration(env = process.env) {
   if (required.some(key => !env[key])) throw new HttpError(503, 'Çevrim içi sistem henüz yapılandırılmadı. Telefon veya WhatsApp ile ulaşabilirsiniz.');
   const url = new URL(env.SUPABASE_URL);
   const origin = new URL(env.SITE_URL).origin;
-  if (url.protocol !== 'https:' || env.APP_SECRET.length < 32) throw new HttpError(503, 'Sunucu yapılandırması geçersiz.');
+  if (url.protocol !== 'https:' || new URL(origin).protocol!=='https:' || url.username || url.password || env.APP_SECRET.length < 32) throw new HttpError(503, 'Sunucu yapılandırması geçersiz.');
   return { url: url.origin, origin, service: env.SUPABASE_SERVICE_ROLE_KEY, anon: env.SUPABASE_ANON_KEY, secret: env.APP_SECRET,
-    admins: env.ADMIN_USER_IDS.split(',').map(value => value.trim()), preview: env.VERCEL_ENV === 'preview',
+    admins: env.ADMIN_USER_IDS.split(',').map(value => value.trim()).filter(Boolean), preview: env.VERCEL_ENV === 'preview',
+    previewOrigin: env.VERCEL_ENV==='preview' && /^[a-z0-9-]+\.vercel\.app$/i.test(env.VERCEL_URL||'') ? `https://${env.VERCEL_URL}` : null,
     privacy: env.PRIVACY_NOTICE_TEXT || '', privacyVersion: env.PRIVACY_NOTICE_VERSION || '', controller: env.PRIVACY_CONTROLLER_NAME || '' };
 }
 export function createSupabase(config, fetcher = fetch) {

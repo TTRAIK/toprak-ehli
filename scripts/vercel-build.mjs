@@ -28,7 +28,7 @@ if(!live){
   const htmlPath=join(staging,'index.html');
   let html=await readFile(htmlPath,'utf8');
   html=html.replace('Toprak Ehli yerel geliştirme önizlemesi. Portföyler temsili örnektir.','Toprak Ehli — Trakya arsa ve arazi. Portföy seçeneklerini inceleyin ve bizimle iletişime geçin.')
-    .replace('Geliştirme önizlemesi · Tüm portföyler temsili, bilgiler doğrulanmamıştır.','Toprak Ehli · Arsa & Yatırım · Trakya')
+    .replace('Geliştirme önizlemesi · Tüm portföyler temsili, bilgiler doğrulanmamıştır.','DEMO İNCELEME · Portföyler ve görseller temsili; gerçek satış ilanı değildir.')
     .replace('Örnek portföyleri incele ↗','Portföyleri incele ↗')
     .replace('Yerel geliştirme · Temsili içerik','Arsa & Yatırım · Trakya')
     .replace('Bu önizleme yatırım tavsiyesi içermez.','İçerikler yatırım tavsiyesi değildir.');
@@ -43,7 +43,7 @@ if(process.env.SITE_URL){
   html=html.replace('</head>',`<link rel="canonical" href="${escapeHtml(canonical.origin)}/"><meta property="og:title" content="Toprak Ehli — Arsa ve Arazi"><meta property="og:description" content="Arsa ve arazi portföylerini inceleyin, Toprak Ehli ile iletişime geçin."><meta property="og:url" content="${escapeHtml(canonical.origin)}/"><meta property="og:type" content="website"><meta property="og:image" content="${escapeHtml(canonical.origin)}/src/assets/landscape-hero.webp"></head>`);
   await writeFile(htmlPath,html);
 }
-const allowed=new Set(['index.html','404.html','robots.txt','src','admin','sitemap.xml']);
+const allowed=new Set(['index.html','404.html','robots.txt','src','admin','sitemap.xml','ilan']);
 for(const entry of await readdir(staging))if(!allowed.has(entry))throw new Error('Dağıtım kökünde beklenmeyen dosya.');
 const output=join(parent,'site');
 try{

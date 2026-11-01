@@ -31,10 +31,11 @@ function edit(record = null) {
     if (control.name === 'publicationApproved') control.checked = Boolean(record?.publicationApproved);
     else {
       if (control.name==='type' && record && ![...control.options].some(option=>option.value===record.type)) { const option=node('option',record.type); option.value=record.type; control.append(option); }
-      control.value = record?.[control.name] ?? (control.name === 'type' ? 'Müstakil' : '');
+      control.value = record?.[control.name] ?? (control.name === 'type' ? 'Bilgi sağlanmadı' : '');
     }
   }
   form.elements.id.readOnly = Boolean(editing);
+  if(!editing)form.elements.id.value='ilan-'+crypto.randomUUID();
   $('#evidence').replaceChildren();
   for (const [key, label] of fields) {
     const fieldset = node('fieldset'); fieldset.append(node('legend', label));
@@ -67,7 +68,7 @@ function renderRecords() {
   const query=$('#record-search').value.trim().toLocaleLowerCase('tr-TR');
   const matches=records.filter(record=>`${record.local} ${record.region} ${record.id}`.toLocaleLowerCase('tr-TR').includes(query));
   $('#records').replaceChildren();
-  if (!matches.length) { const empty=node('div');empty.className='empty-state';empty.append(node('strong',records.length?'Eşleşen portföy bulunamadı.':'İlk portföyünüzü ekleyin.'),node('p',records.length?'Farklı bir konum veya kayıt numarası deneyin.':'Yeni portföy düğmesiyle bilgileri ve fotoğrafları eklemeye başlayın.'));$('#records').append(empty); }
+  if (!matches.length) { const empty=node('div');empty.className='empty-state';empty.append(node('strong',records.length?'Eşleşen portföy bulunamadı.':'İlk portföyünüzü ekleyin.'),node('p',records.length?'Farklı bir konum veya kayıt numarası deneyin.':'Bilgileri ve fotoğrafı ekleyerek başlayın.'));empty.append(button('+ Portföy ekle',()=>edit()));$('#records').append(empty); }
   $('#record-count').textContent=`${matches.length} / ${records.length} portföy gösteriliyor`;
   for (const record of matches) {
     const row = node('div'); row.className = 'record-row';
