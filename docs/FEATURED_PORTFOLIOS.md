@@ -9,3 +9,5 @@ Boolean ve tam sayı alanları sunucuda doğrulanır; mevcut JSONB revizyonlu ka
 51 test geçti. Yeni testler seçim/sıra/limit, taslak-satıldı-fotoğrafsız dışlama, false seçiminin korunması, eski kayıt uyumu ve sunucu doğrulamasını kapsıyor. SQL/API fixture testinde alanların kayıt ve public dönüşünde kaldığı doğrulandı. Gerçek veritabanı içeriği bu aşamada değiştirilmedi.
 
 Geri dönüş etiketi: before-featured-2026-11-01. Ücretli işlem ve GitHub push yok.
+
+Kullanıcı onayıyla production: dpl_Dg3vPrEmkENB32nYVYStfxyayGQC, READY. Canlı temsili kart tıklaması #portfoy geçişiyle doğrulandı; admin HTML yeni featured/order alanlarını içeriyor. Oturumsuz API 401. Gerçek ilan olmadığından gerçek seçili kart görünümü SQL/domain testleriyle doğrulandı; veritabanına hayali ilan eklenmedi.
