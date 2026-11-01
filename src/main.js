@@ -1,3 +1,4 @@
+import { initializePolaroids } from './ui/polaroids.js';
 import { properties as bundledProperties } from './data/properties.js';
 import { fetchPortfolio } from './data/remote.js';
 import { initializeInquiry } from './ui/inquiry.js';
@@ -25,6 +26,7 @@ if(site.online) initializeInquiry(properties);
 renderContact(document.querySelector('#contact-actions'));
 renderWhatsAppShortcut();
 const openDetail = createDetail(document.querySelector('#detail'));
+const refreshPolaroids=initializePolaroids(document.querySelector('#polaroids'),properties,openDetail);
 let selectedIds = [];
 let currentFilters = {};
 let assistantSelection=null;
@@ -105,7 +107,7 @@ if((site.online || site.localManaged) && !loadError){
   async function synchronize(){
     if(document.hidden || updating)return;updating=true;
     try{const data=await fetchPortfolio(site.localManaged?'/api/records':'/api/platform/public');if(data.revision!==remoteRevision){
-      properties=data.records;remoteRevision=data.revision;selectedIds=selectedIds.filter(id=>properties.some(record=>record.id===id));
+      properties=data.records;remoteRevision=data.revision;refreshPolaroids(properties);selectedIds=selectedIds.filter(id=>properties.some(record=>record.id===id));
       const region=form.elements.region;region.replaceChildren(new Option('Tüm bölgeler','all'));
       document.querySelector('#filters').hidden=false;document.querySelector('.comparison').hidden=false;document.querySelector('#results').hidden=false;
       initializeSite(properties);render();
