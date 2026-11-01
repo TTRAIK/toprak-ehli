@@ -1,6 +1,7 @@
 import { HttpError } from './validation.mjs';
 
 export function configuration(env = process.env) {
+  env={...env,SUPABASE_URL:env.TOPRAK_SUPABASE_URL || env.SUPABASE_URL,SUPABASE_SERVICE_ROLE_KEY:env.TOPRAK_SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY,SUPABASE_ANON_KEY:env.TOPRAK_SUPABASE_ANON_KEY || env.SUPABASE_ANON_KEY};
   const required = ['SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','SUPABASE_ANON_KEY','ADMIN_USER_IDS','APP_SECRET','SITE_URL'];
   if (required.some(key => !env[key])) throw new HttpError(503, 'Çevrim içi sistem henüz yapılandırılmadı. Telefon veya WhatsApp ile ulaşabilirsiniz.');
   const url = new URL(env.SUPABASE_URL);
@@ -16,7 +17,7 @@ export function createSupabase(config, fetcher = fetch) {
     let response;
     try {
       response = await fetcher(config.url + path, { ...options, signal: AbortSignal.timeout(15000),
-        headers: { apikey:key, Authorization:`Bearer ${key}`, ...options.headers } });
+        headers: { apikey:key, ...(!key.startsWith('sb_')?{Authorization:`Bearer ${key}`}:{ }), ...options.headers } });
     } catch { throw new HttpError(503, 'Veri servisine ulaşılamadı. Tekrar deneyin.'); }
     if (!response.ok) {
       const detail = await response.text(); // Never include provider details/secrets in logs or public errors.

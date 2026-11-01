@@ -42,6 +42,11 @@ test('Supabase adapter uses server credentials, bounded requests and safe errors
   await assert.rejects(db.rpc('te_change',{}),error=>error.status===409 && !error.message.includes('server-secret'));
   assert.equal(observed.options.headers.apikey,'server-secret');assert.ok(observed.options.signal);
 });
+test('modern Supabase keys are never sent as invalid bearer JWTs',async()=>{
+  let headers;
+  const db=createSupabase({url:env.SUPABASE_URL,service:'sb_secret_fixture',anon:'sb_publishable_fixture'},async(_url,options)=>{headers=options.headers;return new Response('[]',{headers:{'Content-Type':'application/json'}});});
+  await db.select('te_state');assert.equal(headers.apikey,'sb_secret_fixture');assert.equal(headers.Authorization,undefined);
+});
 
 test('PostgreSQL migration and API integration (PGlite; Auth/Storage transport simulated)',async t=>{
   const {sql,db,objects}=await createSqlFixture(actor);t.after(()=>sql.close());
