@@ -13,7 +13,7 @@ export function createMotion() {
   const reveal = root => {
     for (const element of pending) if (!element.isConnected) { observer.unobserve(element); pending.delete(element); }
     if (preference.matches) return;
-    root.querySelectorAll('.listing,.section-heading,.approach,.approach h2,.principles p,.faq,.contact-heading,.contact-panel').forEach((element,index) => {
+    root.querySelectorAll('.te-map-form,.te-map-frame,.proof-item,.platform-card,.guide-card,.regional,.te-feature-heading,.listing,.section-heading,.approach,.approach h2,.principles p,.faq,.contact-heading,.contact-panel').forEach((element,index) => {
     if (element.classList.contains('reveal')) return;
     element.classList.add('reveal');
     element.style.setProperty('--reveal-delay',`${Math.min(index%3,2)*85}ms`);

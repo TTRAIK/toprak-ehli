@@ -15,7 +15,7 @@ export function initializeSite(properties) {
   }
   document.querySelector('.notice').textContent = 'Toprak Ehli · Arsa ve arazi';
   document.querySelector('.hero .button').textContent = 'Portföyleri incele ↗';
-  document.querySelector('#portfolio-note').textContent = properties.length ? 'Kaynakları ve eksik bilgileri her kayıtta inceleyin.' : 'Portföy alanımız hazırlanıyor. Kartlar yalnız görünüm örneğidir.';
+  document.querySelector('#portfolio-note').textContent = properties.length ? '18 kaynak kayıt ve panelden yayınlanan ilanlar. Kaynak liste bilgileri doğrulama bekliyor; görseller temsilidir.' : 'Portföy alanımız hazırlanıyor. Kartlar yalnız görünüm örneğidir.';
   document.querySelector('footer span').textContent = 'Arsa & Arazi · Trakya';
   document.querySelector('#source-principle').textContent = 'Portföy bilgileri kaynak ve kontrol tarihiyle birlikte değerlendirilir. Eksik bilgiler açıkça belirtilir.';
   document.querySelector('#filters').hidden = false;

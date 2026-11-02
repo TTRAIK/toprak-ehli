@@ -28,13 +28,13 @@ export function renderListings(container, properties, onDetail, comparison) {
       image.src = property.image;
       if(property.photos?.length)image.srcset=[480,960,1600].map(size=>`/api/platform/photo?key=${property.photos[0].key}&size=${size} ${size}w`).join(',');
       image.sizes='(max-width: 480px) 100vw, 50vw';
-      image.alt = property.isDemo ? 'Temsili arazi görseli; bu kayıt veya konumun gerçek fotoğrafı değildir.' : property.imageAlt;
+      image.alt = (property.isDemo || property.referenceListing) ? 'Temsili arazi görseli; bu kayıt veya konumun gerçek fotoğrafı değildir.' : property.imageAlt;
       image.loading = 'lazy';
       image.decoding = 'async';
       image.width = 610;
       image.height = 222;
       image.addEventListener('error', () => illustration.replaceChildren(element('span', 'Görsel yüklenemedi', 'image-note')), { once: true });
-      illustration.append(image, element('span', property.isDemo ? 'ÖRNEK GÖRSEL · GERÇEK PARSEL DEĞİLDİR' : 'PORTFÖY GÖRSELİ', 'image-note'));
+      illustration.append(image, element('span', (property.isDemo || property.referenceListing) ? 'ÖRNEK GÖRSEL · GERÇEK PARSEL DEĞİLDİR' : 'PORTFÖY GÖRSELİ', 'image-note'));
     }
     article.append(illustration, element('p', property.region, 'eyebrow'), element('h3', property.title || property.local));
     if(property.status==='sold')article.append(element('p','Satıldı','muted'));
@@ -55,7 +55,7 @@ export function renderListings(container, properties, onDetail, comparison) {
       onDetail(property,button);
     });
     article.append(button);
-    const page=element('a','Ayrı detay sayfasını aç ↗','detail-button');page.href='/ilan/'+encodeURIComponent(property.id);article.append(page);
+    
     const label = element('label', undefined, 'compare-choice');
     const checkbox = element('input');
     checkbox.type = 'checkbox';

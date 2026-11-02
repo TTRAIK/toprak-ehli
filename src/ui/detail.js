@@ -27,6 +27,8 @@ export function createDetail(dialog) {
     trigger = button;
     dialog.querySelector('#detail-title').textContent = property.title || property.local;
     dialog.querySelector('.online-gallery')?.remove();
+    dialog.querySelector('.detail-cover')?.remove();
+    if(property.referenceListing){const image=element('img',undefined,'detail-cover');image.src=property.image;image.alt=property.imageAlt;dialog.querySelector('#detail-location').after(image);}
     if(property.photos?.length || property.description){
       const gallery=element('div',undefined,'online-gallery');
       if(property.description)gallery.append(element('p',property.description));
@@ -35,13 +37,13 @@ export function createDetail(dialog) {
     }
     dialog.querySelector('#detail-location').textContent = property.region;
     dialog.querySelector('.dialog-head .eyebrow').textContent = property.isDemo ? 'TEMSİLİ PORTFÖY' : 'PORTFÖY BİLGİSİ';
-    dialog.querySelector('.disclaimer').textContent = property.isDemo
+    dialog.querySelector('.disclaimer').textContent = property.referenceListing ? 'Kaynak listeden aktarılmış ilan bilgileri. Fiyat, satış koşulları ve ada/parsel bilgileri güncel resmî kayıtlarla doğrulanmamıştır. Görseller temsili olup gerçek parsele ait değildir.' : property.isDemo
       ? 'Bu kayıt gerçek satış ilanı değildir. Tapu, imar, yol ve altyapı bilgileri doğrulanmamıştır.'
       : 'Kaynak ve kontrol tarihlerini inceleyin. Sağlanmamış bilgiler doğrulanmış kabul edilmez. Güncel tapu ve imar bilgilerini ilgili kurumlarla kontrol edin.';
     const shareUrl = new URL(location.href);
     shareUrl.search = '';
-    if(property.id)shareUrl.pathname=`/ilan/${encodeURIComponent(property.id)}`;
-    else shareUrl.searchParams.set('property', property.id);
+    if(property.id && !property.referenceListing)shareUrl.pathname=`/ilan/${encodeURIComponent(property.id)}`;
+    else {shareUrl.pathname='/';shareUrl.searchParams.set('property', property.id);}
     shareUrl.hash = 'portfoy';
     dialog.querySelector('#property-link').value = shareUrl.href;
     dialog.querySelector('#share-status').textContent = '';
