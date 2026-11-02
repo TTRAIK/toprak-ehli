@@ -1,3 +1,4 @@
+import {detailMap,selectPropertyMap} from './portfolio-map.js';
 import { element } from './listings.js';
 import { propertyFacts } from '../domain/facts.js';
 import { factContent } from './facts.js';
@@ -27,8 +28,13 @@ export function createDetail(dialog) {
     trigger = button;
     dialog.querySelector('#detail-title').textContent = property.title || property.local;
     dialog.querySelector('.online-gallery')?.remove();
-    dialog.querySelector('.detail-cover')?.remove();
-    if(property.referenceListing){const image=element('img',undefined,'detail-cover');image.src=property.image;image.alt=property.imageAlt;dialog.querySelector('#detail-location').after(image);}
+    dialog.querySelector('.detail-visuals')?.remove();
+    const visuals=element('div',undefined,'detail-visuals');
+    const map=detailMap(property);
+    visuals.append(map);
+    dialog.querySelector('#detail-location').after(visuals);
+    selectPropertyMap(property);
+    if(property.referenceListing){const image=element('img',undefined,'detail-cover');image.src=property.image;image.alt=property.imageAlt;visuals.prepend(image);}
     if(property.photos?.length || property.description){
       const gallery=element('div',undefined,'online-gallery');
       if(property.description)gallery.append(element('p',property.description));
@@ -54,6 +60,7 @@ export function createDetail(dialog) {
       const card=element('div',undefined,'detail-fact-card');card.append(element('dt',fact.label),value);return card;
     }));
     renderContact(dialog.querySelector('#detail-contact'), property);
-    dialog.showModal();
+    if(!dialog.open)dialog.showModal();
+    dialog.scrollTop=0;
   };
 }

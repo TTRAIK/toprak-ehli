@@ -1,3 +1,4 @@
+import {initializePortfolioMap} from './ui/portfolio-map.js';
 import { combinePortfolio } from './data/reference-listings.js';
 import { initializeExperience } from './ui/experience.js';
 import { renderPortfolioPreview } from './ui/portfolio-preview.js';
@@ -29,6 +30,7 @@ if(site.online) initializeInquiry(properties);
 renderContact(document.querySelector('#contact-actions'));
 renderWhatsAppShortcut();
 const openDetail = createDetail(document.querySelector('#detail'));
+const updatePortfolioMap=initializePortfolioMap(properties,openDetail);
 
 let selectedIds = [];
 let currentFilters = {};
@@ -111,7 +113,7 @@ if((site.online || site.localManaged) && !loadError){
   async function synchronize(){
     if(document.hidden || updating)return;updating=true;
     try{const data=await fetchPortfolio(site.localManaged?'/api/records':'/api/platform/public');if(data.revision!==remoteRevision){
-      properties=data.records;remoteRevision=data.revision;selectedIds=selectedIds.filter(id=>properties.some(record=>record.id===id));
+      properties=combinePortfolio(data.records);remoteRevision=data.revision;updatePortfolioMap(properties);selectedIds=selectedIds.filter(id=>properties.some(record=>record.id===id));
       const region=form.elements.region;region.replaceChildren(new Option('Tüm bölgeler','all'));
       document.querySelector('#filters').hidden=false;document.querySelector('.comparison').hidden=false;document.querySelector('#results').hidden=false;
       initializeSite(properties);render();

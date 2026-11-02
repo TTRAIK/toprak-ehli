@@ -5,7 +5,7 @@ export class HttpError extends Error {
 }
 export const states = ['draft', 'published', 'sold', 'archived'];
 export const leadStates = ['new', 'reviewing', 'contacted', 'completed'];
-const fields = ['title','description','city','district','neighborhood','category','currency','status','photos','updatedAt','publishedAt','featured','featuredOrder'];
+const fields = ['title','description','city','district','neighborhood','category','currency','status','photos','updatedAt','publishedAt','featured','featuredOrder','latitude','longitude'];
 export function validateOnlineRecords(input) {
   if (!Array.isArray(input) || input.length > 1000) throw new HttpError(400, 'En fazla 1000 portföy desteklenir.');
   const clean = input.map(record => {
@@ -18,6 +18,9 @@ export function validateOnlineRecords(input) {
     if (!states.includes(record.status)) throw new HttpError(400, 'İlan durumu geçersiz.');
     if(record.featured!==undefined && typeof record.featured!=='boolean')throw new HttpError(400,'Öne çıkarma seçimi geçersiz.');
     if(record.featuredOrder!==undefined && (!Number.isInteger(record.featuredOrder)||record.featuredOrder<1||record.featuredOrder>99))throw new HttpError(400,'Vitrin sırası 1–99 arasında tam sayı olmalıdır.');
+    if(record.latitude!=null || record.longitude!=null){
+      if(!Number.isFinite(record.latitude)||!Number.isFinite(record.longitude)||Math.abs(record.latitude)>90||Math.abs(record.longitude)>180)throw new HttpError(400,'Enlem ve boylam birlikte, geçerli sayı olarak girilmelidir.');
+    }
     if (['published','sold'].includes(record.status) && !record.publicationApproved) throw new HttpError(400, 'Yayın için işletme onayı gerekli.');
     for (const key of ['title','city','district','neighborhood']) {
       if (record[key] != null && (typeof record[key] !== 'string' || record[key].length > 150)) throw new HttpError(400, `${key} en fazla 150 karakter olmalıdır.`);

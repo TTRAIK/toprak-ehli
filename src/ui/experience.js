@@ -11,7 +11,13 @@ export function initializeExperience(){
     if(!a||!b||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180){error.textContent='Geçerli enlem (−90 / 90) ve boylam (−180 / 180) girin.';return;}
     error.textContent='';const d=.022;const bounds=[lon-d,lat-d,lon+d,lat+d].join(',');
     map.src=`https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bounds)}&layer=mapnik&marker=${lat},${lon}`;
-    document.querySelector('#teSatelliteLink').href=`https://www.google.com/maps/@${lat},${lon},17z/data=!3m1!1e3`;
+    const satellite=document.querySelector('#teSatelliteLink');satellite.hidden=false;satellite.href=`https://www.google.com/maps/@${lat},${lon},17z/data=!3m1!1e3`;
+    map.hidden=false;
+    document.querySelector('.te-map-watermark').textContent='GİRDİĞİNİZ KOORDİNAT · PARSEL DOĞRULAMASI DEĞİLDİR';
+    document.querySelector('.te-map-form>p').textContent='Bu konum elle girdiğiniz koordinattır; seçili portföyün doğrulanmış konumu olarak kaydedilmez.';
+    const selection=document.querySelector('#map-property');if(selection)selection.selectedIndex=-1;
+    const summary=document.querySelector('.map-selected-summary');if(summary)summary.textContent='Serbest koordinat keşfi · Bir ilan seçerek o bölgeye dönebilirsiniz.';
+    const detail=document.querySelector('.map-selection button');if(detail)detail.hidden=true;
   }
   document.querySelector('.te-map-actions button').addEventListener('click',showMap);
   for(const id of ['teLat','teLon'])document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();showMap();}});

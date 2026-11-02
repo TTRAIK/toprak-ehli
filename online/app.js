@@ -57,6 +57,7 @@ async function edit(record=null){
 }
 function collect(){
   const values=Object.fromEntries(new FormData(form)),record={id:values.id.trim(),region:values.region.trim(),local:values.local.trim(),type:values.type,price:values.price===''?null:Number(values.price),area:values.area===''?null:Number(values.area),isDemo:false,publicationApproved:form.elements.publicationApproved.checked,currency:'TRY',category:values.category,status:values.status,photos:structuredClone(photos),featured:form.elements.featured.checked,featuredOrder:values.featuredOrder===''?50:Number(values.featuredOrder),evidence:{}};
+  for(const key of ['latitude','longitude'])if(values[key]?.trim())record[key]=Number(values[key]);
   for(const key of ['title','description','city','district','neighborhood','parcel','zoning','road','utilities'])if(values[key]?.trim())record[key]=values[key].trim();
   for(const [key] of facts)record.evidence[key]={status:values[`evidence-${key}-status`],source:values[`evidence-${key}-source`]?.trim() || null,checkedAt:values[`evidence-${key}-checkedAt`] || null};
   return record;
