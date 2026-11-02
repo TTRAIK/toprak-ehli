@@ -10,3 +10,5 @@ html[data-theme="dark"] .hero:before{display:none}html[data-theme="dark"] .hero 
 .te-map-actions .btn.ghost,.te-map-actions .btn.secondary{background:var(--surface);color:var(--text);border-color:var(--border)}.region-bullets .bullet{color:var(--text)}.listing .image-note{pointer-events:none}.hero .hero-secondary{color:var(--text)}
 
 @media(max-width:760px){.header nav{scrollbar-width:none}.header nav::-webkit-scrollbar{display:none}}
+
+.discovery-grid p{display:block;padding:16px 18px 16px 44px}.discovery-grid span{left:8px;top:18px}.discovery-grid strong,.discovery-grid small{display:block}.discovery-grid strong{margin-bottom:7px}.discovery-grid p+p{border-color:var(--border)}
