@@ -4,7 +4,7 @@ const form=$('#record-form'), labels={draft:'Taslak',published:'Satışta / yay�
 const leadLabels={new:'Yeni',reviewing:'İnceleniyor',contacted:'İletişime geçildi',completed:'Tamamlandı'};
 const leadDrafts=new Map();
 const facts=[['price','Fiyat'],['area','Alan'],['type','Tapu türü'],['parcel','Ada / parsel'],['zoning','İmar'],['road','Yol erişimi'],['utilities','Altyapı']];
-let editingRevision=0,records=[],revision=0,csrf='',editing=null,photos=[],dirty=false,busy=false,leads=[];
+let editingRevision=0,records=[],revision=0,csrf='',editing=null,photos=[],dirty=false,busy=false,leads=[],authEpoch=0;
 function status(text,error=false){$('#status').textContent=text;$('#status').dataset.error=String(error);}
 function lock(value){busy=value;document.querySelectorAll('button,#photo-upload').forEach(button=>button.disabled=value);}
 function action(text,callback){const button=node('button',text);button.type='button';button.addEventListener('click',()=>{if(!busy)callback();});return button;}
@@ -14,11 +14,13 @@ async function api(path,data){
   const result=await response.json();if(response.status===401 && path!=='login')signedOut();
   if(!response.ok)throw new Error(result.error || 'İşlem tamamlanamadı.');return result;
 }
-function signedOut(){document.body.classList.add('signed-out');$('#workspace').hidden=true;$('#login').hidden=false;$('#editor').hidden=true;records=[];leads=[];photos=[];csrf='';dirty=false;leadDrafts.clear();for(const id of ['records','leads','backups','audit','media-list'])$('#'+id).replaceChildren();}
+function signedOut(){authEpoch++;document.body.classList.add('signed-out');$('#workspace').hidden=true;$('#login').hidden=false;$('#editor').hidden=true;records=[];leads=[];photos=[];csrf='';dirty=false;editing=null;leadDrafts.clear();form.reset();$('#login-form').reset();for(const id of ['records','leads','backups','audit','media-list','photo-list','evidence','preview-content'])$('#'+id).replaceChildren();for(const dialog of document.querySelectorAll('dialog[open]'))dialog.close();}
 function signedIn(){document.body.classList.remove('signed-out');$('#workspace').hidden=false;$('#login').hidden=true;}
 async function run(callback){if(busy)return;lock(true);try{await callback();}catch(error){status(error.message || 'Ağ bağlantısı kurulamadı.',true);}finally{lock(false);}}
 async function refresh(){
+  const epoch=authEpoch;
   const [data,backups,inbox,audit]=await Promise.all([api('records'),api('backups'),api('admin-leads'),api('audit')]);
+  if(epoch!==authEpoch)throw new Error('Oturum değişti. Yeniden giriş yapın.');
   records=data.records;revision=data.revision;leads=inbox.leads;
   $('#metric-total').textContent=records.filter(r=>r.status!=='archived').length;
   $('#metric-photo').textContent=records.filter(r=>r.photos.length && r.status!=='archived').length;
@@ -100,3 +102,10 @@ $('#logout').addEventListener('click',async()=>{if((dirty || leadDrafts.size) &&
 $('#export').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([JSON.stringify({version:1,revision,records},null,2)],{type:'application/json'})),link=node('a');link.href=url;link.download='toprak-ehli-portfoyler.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $('#load-media').addEventListener('click',()=>run(async()=>{const data=await api('media');$('#media-list').replaceChildren();for(const media of data.media){const row=node('div',null,'backup-row');row.append(node('span',`${media.id} · ${media.state} · ${new Date(media.created_at).toLocaleDateString('tr-TR')}`),action('Kullanılmıyorsa temizle',async()=>{if(!await ask('Bu fotoğraf kalıcı depolamadan kaldırılacak. İlan veya yedekte kullanılıyorsa işlem engellenir. Devam edilsin mi?'))return;run(async()=>{await api('media-delete',{key:media.id});row.remove();status('Kullanılmayan fotoğraf temizlendi.');});}));$('#media-list').append(row);}}));
 run(async()=>{try{const session=await api('session');csrf=session.csrf;await refresh();signedIn();}catch(error){signedOut();if(!/Oturum/.test(error.message))status(error.message,true);}});
+// Recheck server authorization without extending the one-hour session.
+let checkingSession=false;
+async function checkSession(){if(!csrf||checkingSession||document.hidden)return;checkingSession=true;try{await api('session');}catch{/* API clears private UI on 401; transient network failures do not log out. */}finally{checkingSession=false;}}
+setInterval(checkSession,60000);
+document.addEventListener('visibilitychange',checkSession);
+window.addEventListener('pageshow',event=>{if(event.persisted)location.reload();});
+window.addEventListener('pagehide',()=>signedOut());

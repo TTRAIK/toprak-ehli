@@ -18,7 +18,7 @@ export async function authenticate(request,db,config,write=false) {
   if (!token) throw new HttpError(401,'Oturum açın.');
   const sessions = await db.select('te_sessions',`token_hash=eq.${digest(token)}&select=user_id,expires_at`);
   const session=sessions[0];
-  if (!session || Date.parse(session.expires_at)<=Date.now() || !config.admins.includes(session.user_id)) throw new HttpError(401,'Oturum sona erdi. Yeniden giriş yapın.');
+  if (!session || !Number.isFinite(Date.parse(session.expires_at)) || Date.parse(session.expires_at)<=Date.now() || !config.admins.includes(session.user_id)) throw new HttpError(401,'Oturum sona erdi. Yeniden giriş yapın.');
   if(write) {
     originGuard(request,config);
     const actual=request.headers.get('x-csrf-token') || '';
