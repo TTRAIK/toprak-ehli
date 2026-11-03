@@ -29,3 +29,5 @@ html[data-theme="dark"] #status:not(:empty){background:#324c40;color:#f5f4ec;bor
 html[data-theme="dark"] #status[data-error="true"]{background:#583b37;color:#ffe2dc;border-color:#8e625b}
 html[data-theme="dark"] .photo-card{background:var(--admin-soft);border-color:var(--admin-border)}
 @media(max-width:700px){.theme-toggle{top:10px;right:12px;min-height:38px}.login-panel{margin-top:70px}header{padding-top:38px}}
+
+.metrics strong{color:var(--admin-text)}.metrics small{color:var(--admin-muted);opacity:1}#export,.record-row button,.backup-row button,.photo-card button{background:var(--admin-soft);color:var(--admin-text);border-color:var(--admin-border)}.record-row button:last-child{background:var(--admin-surface);color:#a95948;border-color:var(--admin-border)}html[data-theme="dark"] .record-row button:last-child{color:#f0b4a7}.metrics article:first-child strong{color:#fff}input::placeholder,textarea::placeholder{color:var(--admin-muted);opacity:.8}
