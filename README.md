@@ -1,24 +1,51 @@
 # Toprak Ehli
 
-Modüler arsa ve arazi sitesi. Yerel panel korunur; Vercel Function + Supabase tabanlı online panel, merkezi portföy, görsel ve talep backend kodu eklendi. Gerçek Supabase hesabı henüz bağlanmadığından online üretim teslimi tamamlanmış değildir. Güncel durum: [HANDOVER.md](HANDOVER.md); kurulum: [DEPLOYMENT.md](DEPLOYMENT.md); test kanıtı: [TEST_REPORT.md](TEST_REPORT.md).
+Arsa ve arazi portföy sitesi; açık/koyu tema, harita ile bölge keşfi ve Supabase tabanlı yönetim paneli.
 
-Yerel yönetim: önce `npm run admin:setup` ile kendi parolanızı oluşturun, sonra `npm run admin` ile `http://127.0.0.1:4180` adresini açın. Kullanım ve sınırlar: [docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md).
+- **Canlı site:** https://toprak-ehli-demo.vercel.app/
+- **Yönetim paneli:** https://toprak-ehli-demo.vercel.app/admin/ — yönetici hesabı gerekir.
 
-## Kullanım
+## Bilgisayarında çalıştır
 
-Node.js 24 ile önce `npm ci`, ardından `npm start`; adres `http://127.0.0.1:4175`. Windows'ta `ONIZLEMEYI_BASLAT.cmd` de kullanılabilir. Statik site tarayıcıda framework bağımlılığı kullanmaz; yeni backend/test araçları için npm bağımlılıkları gerekir. ES modülleri için yerel sunucu gereklidir.
+Node.js **24** ve Git kurulu olmalı.
 
-Arama, sıralama, birleşik filtreler, üçlü karşılaştırma, kaynak/tarih/durum gösterimi, paylaşılabilir detay ve işletmenin iletişim bağlantıları çalışır. Demo ilanlar ve görseller gerçek parsel değildir.
+```sh
+git clone https://github.com/TTRAIK/toprak-ehli.git
+cd toprak-ehli
+npm ci
+npm start
+```
 
-Görsel yenileme: yeşil/altın tasarım, temsili AI açılış görseli, hareket azaltma destekli animasyonlar, responsive kartlar ve açılır sorular. Kapsam ve görsel üretim bilgisi: [docs/REDESIGN_REPORT.md](docs/REDESIGN_REPORT.md).
+Tarayıcıda http://127.0.0.1:4175/ adresini aç. Yerel siteyi görmek için Supabase anahtarı veya yönetici parolası gerekmez. Windows'ta kurulumdan sonra ONIZLEMEYI_BASLAT.cmd de kullanılabilir. Sunucuyu Ctrl+C ile durdurabilirsin.
 
-## Kontroller ve teslim
+## Neler var?
 
-- `npm test`: domain, içerik, iletişim ve HTTP testleri.
-- `npm run check`: JS/MJS sözdizimi; lint/typecheck değildir.
-- `npm run build`: `content/listings.json` içindeki onaylı gerçek kayıtlarla ayrı statik paket oluşturur. Demo kayıtları alınmaz. Liste boşsa iletişim sitesi hazırlanır.
-- `npm run release:check`: son paketin modül bütünlüğünü ve proje dosyalarının dışarıda kaldığını kontrol eder.
+- Beyaz ve ferah yeşil-gri koyu tema; tarayıcıda saklanan ortak tema tercihi.
+- Portföy arama, bölge/fiyat/alan filtreleri, sıralama ve üçlü karşılaştırma.
+- Karttan açılan detay, paylaşım bağlantısı ve OpenStreetMap bölge haritası. Kesin koordinat yoksa parsel pini uydurulmaz.
+- WhatsApp, telefon ve e-posta bağlantıları; hareket azaltma destekli animasyonlar.
+- Online admin: ilan taslağı/yayın/arşiv, fotoğraf yükleme/sıralama, vitrin seçimi, koordinat alanları, uygulama yedekleri ve işlem geçmişi.
 
-Kullanım, içerik şeması, yayın adımları ve kalan kapsam: [TESLIM_NOTLARI.md](TESLIM_NOTLARI.md). Son test raporu: [docs/DELIVERY_REPORT.md](docs/DELIVERY_REPORT.md). Altı fazın durumu: [docs/ROADMAP.md](docs/ROADMAP.md).
+## Veri ve sınırlar
 
-Özgün referans `reference/toprak_ehli_demo.html` korunur. SHA-256: `1e4a331a8e8b20bb44ba9d488a67f49a6139e60a5b173ae15a412eb88f742691`. Kaynak kod ve Git geçmişi özel [TTRAIK/toprak-ehli](https://github.com/TTRAIK/toprak-ehli) deposundadır. Güncel teslim sınırları HANDOVER.md içindedir.
+Canlı sitedeki **18 kaynak katalog kaydı** doğrulama bekleyen bilgiler ve temsili görseller içerir; katalog şu an panelden düzenlenmez. **8 yeni kayıt**, canlı veritabanında belge kontrolü bekleyen taslaklardır; kamuya açık listede görünmezler. Kamuya açık bu depodaki taslak dosyası da doğrulama veya satış onayı değildir. TARLA ifadesi tek/paylı mülkiyet şeklini göstermez.
+
+Merkezi yönetim için Supabase hesabı bağlıdır; depoyu indirmek canlı veritabanına veya admin hesabına erişim vermez. Kendi backend kurulumun için .env.example ve [DEPLOYMENT.md](DEPLOYMENT.md) dosyasına bak; kendi projen ve anahtarların gerekir. Anahtarları frontend'e veya Git'e koyma. Alternatif yerel yönetim: npm run admin:setup, ardından npm run admin; [kılavuz](docs/ADMIN_GUIDE.md).
+
+Hukuki metin tamamlanmadığından web talep formu kapalıdır. Panel girişinde MFA henüz yoktur. Güvenlik incelemesinin kapsamı ve kalan işler [güvenlik raporunda](docs/ADMIN_SECURITY_REPORT_2026-11-03.md); son tema kontrolleri [admin teslim notunda](docs/ADMIN_THEME_RELEASE_2026-11-03.md) bulunur.
+
+## Kontroller
+
+```sh
+npm test
+npm run lint
+npm run check
+```
+
+Son çalıştırmada 57 test geçti. Proje HTML/CSS/ES modülleri kullanır; backend Vercel Node Functions, Supabase ve Sharp ile çalışır. Özel anahtarlar, .private yedekleri, .env dosyaları ve veritabanı oturumları depoya dahil değildir.
+
+## Geliştirici belgeleri
+
+[Kurulum](DEPLOYMENT.md) · [Teslim bilgileri](HANDOVER.md) · [Harita ve animasyonlar](docs/MAP_MOTION_RELEASE.md) · [İçerik ve kullanım](TESLIM_NOTLARI.md)
+
+README güncel başlangıç noktasıdır; eski tarihli raporlar o tarihteki durumu anlatır.
