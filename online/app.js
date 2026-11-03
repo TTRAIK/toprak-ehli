@@ -1,12 +1,17 @@
 const $=selector=>document.querySelector(selector);
 const node=(tag,text,className)=>{const result=document.createElement(tag);if(text!=null)result.textContent=text;if(className)result.className=className;return result;};
+const themeToggle=$('#admin-theme-toggle');
+function applyTheme(value){const dark=value==='dark';document.documentElement.dataset.theme=dark?'dark':'light';themeToggle.textContent=dark?'☀ Açık mod':'☾ Koyu mod';themeToggle.setAttribute('aria-label',dark?'Açık modu aç':'Karanlık modu aç');themeToggle.setAttribute('aria-pressed',String(dark));}
+try{applyTheme(localStorage.getItem('te-theme'));}catch{applyTheme('light');}
+themeToggle.addEventListener('click',()=>{const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(theme);try{localStorage.setItem('te-theme',theme);}catch{/* Theme remains available without storage. */}});
+window.addEventListener('storage',event=>{if(event.key==='te-theme')applyTheme(event.newValue);});
 const form=$('#record-form'), labels={draft:'Taslak',published:'Satışta / yayında',sold:'Satıldı / yayında',archived:'Arşiv'};
 const leadLabels={new:'Yeni',reviewing:'İnceleniyor',contacted:'İletişime geçildi',completed:'Tamamlandı'};
 const leadDrafts=new Map();
 const facts=[['price','Fiyat'],['area','Alan'],['type','Tapu türü'],['parcel','Ada / parsel'],['zoning','İmar'],['road','Yol erişimi'],['utilities','Altyapı']];
 let editingRevision=0,records=[],revision=0,csrf='',editing=null,photos=[],dirty=false,busy=false,leads=[],authEpoch=0;
 function status(text,error=false){$('#status').textContent=text;$('#status').dataset.error=String(error);}
-function lock(value){busy=value;document.querySelectorAll('button,#photo-upload').forEach(button=>button.disabled=value);}
+function lock(value){busy=value;document.querySelectorAll('button:not(#admin-theme-toggle),#photo-upload').forEach(button=>button.disabled=value);}
 function action(text,callback){const button=node('button',text);button.type='button';button.addEventListener('click',()=>{if(!busy)callback();});return button;}
 function ask(text){return new Promise(done=>{const dialog=$('#confirmation');$('#confirmation-message').textContent=text;dialog.returnValue='cancel';dialog.addEventListener('close',()=>done(dialog.returnValue==='confirm'),{once:true});dialog.showModal();});}
 async function api(path,data){
